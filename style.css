@@ -1,3 +1,4 @@
+
 .container {
   background-color: #FFFFFF;
   padding: 40px;
@@ -102,14 +103,7 @@ input[type="password"]:focus {
     transform: scale(1);
   }
 }
-body {
-  background-color: #3B3B3B;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+
 
 .container {
   background-color: #FFFFFF;
@@ -154,15 +148,6 @@ body {
   color: #FFFFFF;
   cursor: pointer;
   transition: background-color 0.5s ease-in-out;
-}
-body {
-  font-family: Arial, sans-serif;
-  background-color: #F5F5F5;
-}
-
-
-body {
-  font-family: sans-serif;
 }
 
 
@@ -242,11 +227,6 @@ button {
 }
 
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #F5F5F5;
-}
-
 
 
 form {
@@ -290,11 +270,6 @@ button {
   font-weight: bold;
 }
 
-
-body {
-  font-family: sans-serif;
-  background-color: #F5F5F5;
-}
 
 
 form {
@@ -353,10 +328,6 @@ input[type="password"]:hover {
   background-color: rgba(0, 0, 0, 0.789);
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #F5F5F5;
-}
 
 h1 {
   text-align: top;
@@ -443,7 +414,13 @@ button {
   text-shadow: 1px 1px #de1d1d;
 }
 
-body.login-page {
-  background: linear-gradient(to bottom, #07304b, #3e169c);
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #231a43;
+	margin: 0;
+	padding: 0;
+	background-color: #3579d3;
 }
 
