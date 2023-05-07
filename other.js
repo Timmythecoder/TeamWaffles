@@ -1,6 +1,8 @@
 // Get the input element and add-button element
 const nameInput = document.getElementById("name-input");
 const addButton = document.getElementById("add-button");
+const buttons = document.querySelectorAll('.sound-button');
+const audio = document.getElementById('audio');
 
 // Get the ul element where the names will be displayed
 const nameList = document.getElementById("name-list");
@@ -94,3 +96,11 @@ nameList.addEventListener("click", (event) => {
     moveDown(target.closest("li"));
   }
 });
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    audio.src = button.dataset.sound;
+    audio.play();
+  });
+});
+

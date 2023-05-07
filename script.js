@@ -1,3 +1,6 @@
+setTimeout(function() {
+  location.reload();
+}, 10000);
 // Get the login button element
 const loginButton = document.getElementById('login-button');
 

@@ -1,3 +1,6 @@
+setTimeout(function() {
+    location.reload();
+  }, 10000);
 const form = document.getElementById('request-form');
 
 form.addEventListener('submit', (e) => {
