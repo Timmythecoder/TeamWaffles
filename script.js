@@ -14,7 +14,7 @@ function login() {
   const password = document.getElementById('password').value;
 
   // Check if the username and password are correct
-  if (username === 'myusername' && password === 'mypassword') {
+  if (username === 'teamwafflesadmin' && password === 'admin') {
     // Redirect to the protected.html page
     window.location.replace('ADMIN.HTML');
   } else {
