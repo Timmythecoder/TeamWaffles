@@ -35,6 +35,6 @@ form.addEventListener('submit', (e) => {
     });
 });
 function BACK(){
-    window.location.replace('index.HTML');
+    window.location.replace('index.html');
 }
   
