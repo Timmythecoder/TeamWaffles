@@ -38,6 +38,6 @@ document.getElementById("application-form").addEventListener("submit", function(
     });
 });
 function BACK(){
-    window.location.replace('index.HTML');
+    window.location.replace('index.html');
 }
   

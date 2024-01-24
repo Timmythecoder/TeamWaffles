@@ -1,3 +1,66 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.status-update {
+  background-color: #f8d7da; /* Light red background color */
+  color: #721c24; /* Dark red text color */
+  padding: 10px;
+  text-align: center;
+}
+
+.status-update strong {
+  font-weight: bold;
+}
+
+.updates {
+  margin: 20px;
+}
+
+.update-item {
+  background-color: #d4edda; /* Light green background color */
+  border: 1px solid #c3e6cb; /* Dark green border color */
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.update-item strong {
+  font-weight: bold;
+}
+
+/* Navigation styles */
+.header-left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo i {
+  margin-right: 10px;
+}
+
+#menu {
+  list-style-type: none;
+  display: flex;
+  margin: 0;
+}
+
+#menu li {
+  margin-right: 20px;
+}
+
+/* Rest of your existing styles */
+
 * {
     border: 0;
     box-sizing: border-box;
