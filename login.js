@@ -95,7 +95,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         document.getElementById('userInfo').style.display = 'block';
         document.getElementById('usernameDisplay').textContent = username;
         
-        var points = 10; // points value
+        var points = 100; // points value
         document.getElementById('pointsDisplay').textContent = points;
     } else {
         document.getElementById('message').textContent = 'Invalid username or password. Please try again.';
