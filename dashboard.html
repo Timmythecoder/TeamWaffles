@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-
+    <title>Dashboard</title>
     <style>
         body {
             display: flex;
@@ -63,36 +62,6 @@
             margin-bottom: 20px;
         }
 
-        .content form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .content form input {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .content form button {
-            width: 80%;
-            padding: 10px;
-            background: #007AFF;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .content form button:hover {
-            background: #005bb5;
-        }
-
         .home-button {
             width: 50px;
             height: 50px;
@@ -103,17 +72,13 @@
             left: 50%;
             transform: translateX(-50%);
         }
-
-        #login-error {
-            color: red;
-            display: none;
-        }
     </style>
-    C
+    <!-- Firebase SDK -->
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
         // Your Firebase configuration
         const firebaseConfig = {
@@ -130,32 +95,33 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const database = getDatabase(app);
 
-        // Add event listener for form submission
         document.addEventListener('DOMContentLoaded', () => {
-            const loginForm = document.getElementById('login-form');
-            const loginEmail = document.getElementById('login-email');
-            const loginPassword = document.getElementById('login-password');
-            const loginError = document.getElementById('login-error');
+            const allUserPoints = document.getElementById('all-user-points');
 
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = loginEmail.value;
-                const password = loginPassword.value;
-
-                signInWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        alert('User logged in successfully!');
-                        window.location.href = 'dashboard.html'; // Redirect to dashboard page
-                    })
-                    .catch((error) => {
-                        const errorMessage = error.message;
-                        loginError.textContent = errorMessage;
-                        loginError.style.display = 'block';
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    const usersRef = ref(database, 'users/');
+                    onValue(usersRef, (snapshot) => {
+                        const users = snapshot.val();
+                        let pointsList = '';
+                        for (const uid in users) {
+                            if (users.hasOwnProperty(uid)) {
+                                const user = users[uid];
+                                pointsList += `<p>${user.email}: ${user.points}</p>`;
+                            }
+                        }
+                        allUserPoints.innerHTML = pointsList || '<p>No user data available.</p>';
                     });
+                } else {
+                    // Redirect to login page if no user is logged in
+                    window.location.href = 'login.html';
+                }
             });
-                                    // Home button functionality
-                                    const homeButton = document.querySelector('.home-button');
+
+                        // Home button functionality
+                        const homeButton = document.querySelector('.home-button');
             homeButton.addEventListener('click', () => {
                 window.location.href = 'index.html';
             });
@@ -171,13 +137,8 @@
                 <span class="battery"></span>
             </div>
             <div class="content">
-                <h2>Login Page</h2>
-                <form id="login-form">
-                    <input type="email" id="login-email" placeholder="Email" required>
-                    <input type="password" id="login-password" placeholder="Password" required>
-                    <button type="submit">Login</button>
-                </form>
-                <p id="login-error">Login error</p>
+                <h2>Dashboard</h2>
+                <div id="all-user-points">Loading...</div>
             </div>
         </div>
         <div class="home-button"></div>

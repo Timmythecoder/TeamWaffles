@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Waffles Points</title>
+    <link rel="stylesheet" href="points.css">
+</head>
+<body>
+    <div class="phone">
+        <div class="screen">
+            <div class="status-bar">
+                <span class="signal"></span>
+                <span class="wifi"></span>
+                <span class="battery"></span>
+            </div>
+            <div class="content">
+                <div id="loginFormContainer">
+                    <h2>Login</h2>
+                    <form id="loginForm">
+                        <input type="text" id="username" placeholder="Username" required>
+                        <input type="password" id="password" placeholder="Password" required>
+                        <button type="submit">Login</button>
+                    </form>
+                    <p id="message"></p>
+                </div>
+                <div id="userInfo" style="display: none;">
+                    <h2>Welcome, <span id="usernameDisplay"></span>!</h2>
+                    <p>Your points: <span id="pointsDisplay"></span></p>
+                </div>
+            </div>
+        </div>
+        <button class="home-button" onclick="BACK()"></button>
+    </div>
+
+    <script>
+        function BACK() {
+            window.location.replace('index.html');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+    
+            var points = 0; // Default points value
+    
+            switch (username) {
+                case 'demo':
+                    if (password === 'password') {
+                        points = 100;
+                    }
+                    break;
+                case 'HARRIS':
+                    if (password === 'HARRIS111') {
+                        points = 850;
+                    }
+                    break;
+                case 'MAX':
+                    if (password === 'MAX222') {
+                        points = 525;
+                    }
+                    break;
+                case 'JACK':
+                    if (password === 'JACK333' || password === 'JACK999') {
+                        points = 125;
+                    }
+                    break;
+                case 'ABI':
+                    if (password === 'ABI444') {
+                        points = 525;
+                    }
+                    break;
+                case 'GINGER':
+                    if (password === 'GINGER555') {
+                        points = 100;
+                    }
+                    break;
+                case 'JAMES':
+                    if (password === 'JAMES666') {
+                        points = 525;
+                    }
+                    break;
+                case 'ANTONYO':
+                    if (password === 'ANTONYO777') {
+                        points = 575;
+                    }
+                    break;
+                case 'HIRO':
+                    if (password === 'HIRO888') {
+                        points = 550;
+                    }
+                    break;
+                case 'NOAH':
+                    if (password === 'NOAH1000') {
+                        points = 175;
+                    }
+                    break;
+                case 'ALEX':
+                    if (password === 'ALEX1111') {
+                        points = 225;
+                    }
+                    break;
+                case 'EMILY':
+                    if (password === 'EMILY2222') {
+                        points = 150;
+                    }
+                    break;
+                case 'HAYLEY':
+                    if (password === 'HAYLEY3333') {
+                        points = 100;
+                    }
+                    break;
+                case 'SHRIYAN':
+                    if (password === 'SHRIYAN4444') {
+                        points = 100;
+                    }
+                    break;
+                case 'MAALAV':
+                    if (password === 'MAALAV5555') {
+                        points = 100;
+                    }
+                    break;
+                case 'LUCAS':
+                    if (password === 'LUCAS6666') {
+                        points = 565;
+                    }
+                    break;
+                case 'JONO':
+                    if (password === 'JONO7777') {
+                        points = 275;
+                    }
+                    break;
+                case 'LOURDES':
+                    if (password === 'LOURDES8888') {
+                        points = 125;
+                    }
+                    break;
+                case 'MATTHEW':
+                    if (password === 'MATTHEW9999') {
+                        points = 515;
+                    }
+                    break;
+                case 'SCARLETT':
+                    if (password === 'SCARLETT11111') {
+                        points = 200;
+                    }
+                    break;
+                case 'BEN':
+                    if (password === 'BEN22222') {
+                        points = 225;
+                    }
+                    break;
+                case 'IAN':
+                    if (password === 'IAN33333') {
+                        points = 225;
+                    }
+                    break;
+                case 'SAMUEL':
+                    if (password === 'SAMUEL44444') {
+                        points = 200;
+                    }
+                    break;
+                default:
+                    points = 0;
+                    break;
+            }
+    
+            if (points > 0) {
+                document.getElementById('message').textContent = 'Login successful. Redirecting...';
+                document.getElementById('loginFormContainer').style.display = 'none';
+                document.getElementById('userInfo').style.display = 'block';
+                document.getElementById('usernameDisplay').textContent = username;
+                document.getElementById('pointsDisplay').textContent = points;
+            } else {
+                document.getElementById('message').textContent = 'Invalid username or password. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>
