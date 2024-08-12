@@ -149,13 +149,13 @@
             </div>
             <div class="content">
                 <div class="form-container">
-                    <h2>Song Request Form</h2>
+                    <h2>Feedback Form</h2>
                     <div class="form-group">
-                        <label for="songName">Song Name:</label>
+                        <label for="songName">Feedback:</label>
                         <input type="text" id="songName" name="songName" required>
                     </div>
                     <div class="form-group">
-                        <label for="artist">Artist:</label>
+                        <label for="artist">Who's sending:</label>
                         <input type="text" id="artist" name="artist" required>
                     </div>
                     <div class="form-group">
@@ -198,7 +198,7 @@
 
             // Prepare JSON payload
             const payload = {
-                content: `New Song Request:\n**Song:** ${songName}\n**Artist:** ${artist}\n\n${message}`
+                content: `New Feedback:\n**Feedback:** ${songName}\n**Who's Sending:** ${artist}\n\n${message}`
             };
 
             // Replace with your actual Discord webhook URL
@@ -216,7 +216,7 @@
                 if (response.ok) {
                     // Update local storage with current timestamp
                     localStorage.setItem(cooldownKey, Date.now());
-                    document.getElementById('statusMessage').textContent = 'Song request sent successfully!';
+                    document.getElementById('statusMessage').textContent = 'Feedback sent successfully!';
                     document.getElementById('statusMessage').style.color = 'green';
                 } else {
                     document.getElementById('statusMessage').textContent = 'Failed to send song request.';
@@ -224,7 +224,7 @@
                 }
             })
             .catch(error => {
-                console.error('Error sending song request:', error);
+                console.error('Error sending feedback:', error);
                 document.getElementById('statusMessage').textContent = 'An error occurred while sending the request.';
                 document.getElementById('statusMessage').style.color = 'red';
             });
@@ -232,3 +232,4 @@
     </script>
 </body>
 </html>
+

@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.phone {
+    width: 300px;
+    height: 600px;
+    background: #fff;
+    border: 16px solid black;
+    border-radius: 36px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.screen {
+    width: calc(100% - 32px);
+    height: calc(100% - 96px);
+    background: #f5f5f7;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.status-bar {
+    height: 20px;
+    background: #000;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    align-items: center;
+}
+
+.signal, .wifi, .battery {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.content {
+    height: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginFormContainer, #userInfo {
+    text-align: center;
+}
+
+#loginFormContainer form, #userInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#loginFormContainer h2, #userInfo h2 {
+    margin-top: 0;
+}
+
+#loginFormContainer input, #loginFormContainer button {
+    margin-bottom: 10px;
+    padding: 8px;
+    font-size: 16px;
+}
+
+#loginFormContainer button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+#message {
+    margin-top: 10px;
+    color: red;
+}
+
+.home-button {
+    width: 50px;
+    height: 50px;
+    background: #333;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 20px;
+    left: 50%; /* Centered horizontally */
+    transform: translateX(-50%);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+}
+
+.home-button:before {
+    content: '\2190'; /* Unicode for left arrow */
+    font-size: 24px;
+}

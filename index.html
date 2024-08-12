@@ -2,103 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Waffles</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Team Waffles Phone</title>
+    <link rel="icon" href="TWL O - Copy.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="container">
+    <div class="text"
+        <h2>Team Waffles Interface</h2>
 
-    <!-- Status Update -->
-    <div class="status-update">
-        <p><strong>Attention:</strong> Zoom credentials have been changed!</p>
     </div>
 
-    <!-- New Updates Section -->
-    <section class="updates">
-      <h2>Latest Updates 25/01/24</h2>
-      <div class="update-item">
-          <p><strong>Memeber Update 1:</strong> We have a new member!</p>
-      </div>
-      <div class="update-item">
-        <p><strong>Zoom Status Update:</strong> Our Zoom Credentials have changed! 
-        ID: 488 741 3516 Password: waffle5</p>
-    </div>
-    <div class="update-item">
-      <p><strong>Website Update:</strong>Fixed the Back Button leading to 404 error.</p>
-  </div>
-      <!-- Add more update items as needed -->
-  </section>
-
-    <!-- Navigation and Header -->
-    <header>
-        <div class="header-left">
-            <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-            <nav id="navbar" class="">
-                <div class="nav-wrapper">
-                    
-                    <div class="logo">
-                        <i class="fa fa-angellist"></i> Team Waffles</a>
-                    </div>
-                
-                    <!-- Navbar Links -->
-                    <ul id="menu">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="apply.html">Apply</a></li>
-                        <li><a href="songrequest.html">Song Requests</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-            </nav>
-
-            <!-- Menu Icon -->
-            <div class="menuIcon">
-                <span class="icon icon-bars"></span>
-                <span class="icon icon-bars overlay"></span>
+    <div class="iphone">
+        <div class="screen">
+            <div class="status-bar">
+                <span class="signal"></span>
+                <span class="wifi"></span>
+                <span class="battery"></span>
             </div>
-
-            <div class="overlay-menu">
-                <ul id="menu">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="apply.html">Apply</a></li>
-                    <li><a href="songrequest.html">Song Requests</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
+            <div class="content">
+                <div class="app" onclick="navigateTo('points.html')">Login</div>
+             <!-- <div class="app" onclick="navigateTo('signup.html')">Sign Up</div>-->  
+                <div class="app" onclick="navigateTo('index.html')">Home</div>
+                <div class="app" onclick="navigateTo('songrequest.html')">Songs</div>
+                <div class="app" onclick="navigateTo('calandar.html')">Schedule</div>
+                <div class="app" onclick="navigateTo('info.html')">Info</div>
+                <div class="app" onclick="navigateTo('feedback.html')">Feedback</div>
+                <div class="app" onclick="navigateTo('gallery.html')">Gallery</div>
+                <br>
+                <br>
+                <img class="mainlogo" src="TWL O - Copy.png"> 
+                       
             </div>
-        
-            <script src="script.js"></script>
-            <img src="IMG_1593.jpg">
         </div>
-    </header>
-
-    <!-- Start of Async Drift Code -->
-    <script>
-        "use strict";
-
-        !function() {
-            var t = window.driftt = window.drift = window.driftt || [];
-            if (!t.init) {
-                if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
-                t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ], 
-                t.factory = function(e) {
-                    return function() {
-                        var n = Array.prototype.slice.call(arguments);
-                        return n.unshift(e), t.push(n), t;
-                    };
-                }, t.methods.forEach(function(e) {
-                    t[e] = t.factory(e);
-                }), t.load = function(t) {
-                    var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
-                    o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
-                    var i = document.getElementsByTagName("script")[0];
-                    i.parentNode.insertBefore(o, i);
-                };
-            }
-        }();
-        drift.SNIPPET_VERSION = '0.3.1';
-        drift.load('zfxdipacg4te');
-    </script>
-    <!-- End of Async Drift Code -->
-
+       <br>
+       <br>
+        <div class="home-button"></div>
+        <br>
+        <br>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
