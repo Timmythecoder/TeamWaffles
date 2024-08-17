@@ -27,6 +27,12 @@
                 <div id="userInfo" style="display: none;">
                     <h2>Welcome fellow Waffler, <span id="usernameDisplay"></span>!</h2>
                     <p>Your Waffle points: <span id="pointsDisplay"></span></p>
+                    <button id="showLeaderboard">Show Leaderboard</button>
+                </div>
+                <div id="leaderboardContainer" style="display: none;">
+                    <h2>Leaderboard</h2>
+                    <div id="leaderboard"></div>
+                    <button id="hideLeaderboard">Hide Leaderboard</button>
                 </div>
             </div>
         </div>
@@ -46,136 +52,76 @@
     
             var points = 0; // Default points value
     
-            switch (username) {
-                case 'demo':
-                    if (password === 'password') {
-                        points = 100;
-                    }
-                    break;
-                case 'HARRIS':
-                    if (password === 'HARRIS111') {
-                        points = 950;
-                    }
-                    break;
-                case 'MAX':
-                    if (password === 'MAX222') {
-                        points = 675;
-                    }
-                    break;
-                case 'JACK':
-                    if (password === 'JACK333' || password === 'JACK999') {
-                        points = 125;
-                    }
-                    break;
-                case 'ABI':
-                    if (password === 'ABI444') {
-                        points = 575;
-                    }
-                    break;
-                case 'GINGER':
-                    if (password === 'GINGER555') {
-                        points = 100;
-                    }
-                    break;
-                case 'JAMES':
-                    if (password === 'JAMES666') {
-                        points = 550;
-                    }
-                    break;
-                case 'ANTONYO':
-                    if (password === 'ANTONYO777') {
-                        points = 600;
-                    }
-                    break;
-                case 'HIRO':
-                    if (password === 'HIRO888') {
-                        points = 525;
-                    }
-                    break;
-                case 'NOAH':
-                    if (password === 'NOAH1000') {
-                        points = 175;
-                    }
-                    break;
-                case 'ALEX':
-                    if (password === 'ALEX1111') {
-                        points = 575;
-                    }
-                    break;
-                case 'EMILY':
-                    if (password === 'EMILY2222') {
-                        points = 150;
-                    }
-                    break;
-                case 'HAYLEY':
-                    if (password === 'HAYLEY3333') {
-                        points = 100;
-                    }
-                    break;
-                case 'SHRIYAN':
-                    if (password === 'SHRIYAN4444') {
-                        points = 100;
-                    }
-                    break;
-                case 'MAALAV':
-                    if (password === 'MAALAV5555') {
-                        points = 100;
-                    }
-                    break;
-                case 'LUCAS':
-                    if (password === 'LUCAS6666') {
-                        points = 590;
-                    }
-                    break;
-                case 'JONO':
-                    if (password === 'JONO7777') {
-                        points = 325;
-                    }
-                    break;
-                case 'LOURDES':
-                    if (password === 'LOURDES8888') {
-                        points = 125;
-                    }
-                    break;
-                case 'MATTHEW':
-                    if (password === 'MATTHEW9999') {
-                        points = 515;
-                    }
-                    break;
-                case 'SCARLETT':
-                    if (password === 'SCARLETT11111') {
-                        points = 225;
-                    }
-                    break;
-                case 'BEN':
-                    if (password === 'BEN22222') {
-                        points = 600;
-                    }
-                    break;
-                case 'IAN':
-                    if (password === 'IAN33333') {
-                        points = 111; //225
-                    }
-                    break;
-                case 'SAMUEL':
-                    if (password === 'SAMUEL44444') {
-                        points = 200;
-                    }
-                    break;
-                default:
-                    points = 0;
-                    break;
-            }
+            var users = {
+                'demo': 'password:100',
+                'HARRIS': 'HARRIS111:950',
+                'MAX': 'MAX222:675',
+                'JACK': 'JACK333:125',
+                'ABI': 'ABI444:575',
+                'GINGER': 'GINGER555:100',
+                'JAMES': 'JAMES666:550',
+                'ANTONYO': 'ANTONYO777:600',
+                'HIRO': 'HIRO888:525',
+                'NOAH': 'NOAH1000:175',
+                'ALEX': 'ALEX1111:575',
+                'EMILY': 'EMILY2222:150',
+                'HAYLEY': 'HAYLEY3333:100',
+                'SHRIYAN': 'SHRIYAN4444:100',
+                'MAALAV': 'MAALAV5555:100',
+                'LUCAS': 'LUCAS6666:590',
+                'JONO': 'JONO7777:325',
+                'LOURDES': 'LOURDES8888:125',
+                'MATTHEW': 'MATTHEW9999:515',
+                'SCARLETT': 'SCARLETT11111:225',
+                'BEN': 'BEN22222:600',
+                'IAN': 'IAN33333:111',
+                'SAMUEL': 'SAMUEL44444:200'
+            };
     
-            if (points > 0) {
+            if (users[username] && users[username].split(':')[0] === password) {
+                points = parseInt(users[username].split(':')[1], 10);
                 document.getElementById('message').textContent = 'Login successful. Redirecting...';
                 document.getElementById('loginFormContainer').style.display = 'none';
                 document.getElementById('userInfo').style.display = 'block';
                 document.getElementById('usernameDisplay').textContent = username;
                 document.getElementById('pointsDisplay').textContent = points;
+
+                // Update the leaderboard thanks for thehelp on the complex parts
+                updateLeaderboard(users);
             } else {
-                document.getElementById('message').textContent = 'Invalid username or password. Please try again.(if your trying to hack someones account, theres no point. Its just their points and how they are richer than you)';
+                document.getElementById('message').textContent = 'Invalid username or password. Please try again. (theres no point trying to hack someones account if they have more points than you :))';
             }
+        });
+
+        function updateLeaderboard(users) {
+            const leaderboardElement = document.getElementById('leaderboard');
+            leaderboardElement.innerHTML = ''; // Clear existing leaderboard
+
+            // Create a sortable array of users by points
+            const sortedUsers = Object.keys(users).map(user => {
+                return {
+                    name: user,
+                    points: parseInt(users[user].split(':')[1], 10)
+                };
+            }).sort((a, b) => b.points - a.points);
+
+            // Populate the leaderboard
+            sortedUsers.forEach(user => {
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+                item.innerHTML = `${user.name} <span>${user.points}</span>`;
+                leaderboardElement.appendChild(item);
+            });
+
+            document.getElementById('leaderboardContainer').style.display = 'block';
+        }
+
+        document.getElementById('showLeaderboard').addEventListener('click', function() {
+            document.getElementById('leaderboardContainer').style.display = 'block';
+        });
+
+        document.getElementById('hideLeaderboard').addEventListener('click', function() {
+            document.getElementById('leaderboardContainer').style.display = 'none';
         });
     </script>
 </body>
