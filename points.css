@@ -5,13 +5,13 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-color: #3b4b81;
 }
 
 .phone {
     width: 300px;
     height: 600px;
-    background: #fff;
+    background: #3b4b81;
     border: 16px solid black;
     border-radius: 36px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -22,26 +22,7 @@ body {
     justify-content: space-between;
 }
 
-.screen {
-    width: calc(100% - 32px);
-    height: calc(100% - 96px);
-    background: #f5f5f7;
-    border-radius: 20px;
-    overflow: hidden;
-    position: relative;
-    padding: 16px;
-    box-sizing: border-box;
-}
 
-.status-bar {
-    height: 20px;
-    background: #000;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 10px;
-    align-items: center;
-}
 
 .signal, .wifi, .battery {
     width: 10px;
@@ -50,49 +31,24 @@ body {
     border-radius: 50%;
 }
 
-.content {
-    height: calc(100% - 40px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
-#loginFormContainer, #userInfo {
-    text-align: center;
-}
 
-#loginFormContainer form, #userInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
 
-#loginFormContainer h2, #userInfo h2 {
-    margin-top: 0;
-}
 
-#loginFormContainer input, #loginFormContainer button {
-    margin-bottom: 10px;
-    padding: 8px;
-    font-size: 16px;
-}
 
-#loginFormContainer button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
+
+
+
+
+
+
+
+
 
 #message {
     margin-top: 10px;
     color: red;
 }
-
-
 
 .leaderboard-item {
     width: 100%;
@@ -104,17 +60,13 @@ body {
     text-align: center;
 }
 
-
-
-
-
 .home-button {
     width: 50px;
     height: 50px;
     background: #333;
     border-radius: 50%;
     position: absolute;
-    bottom: -10px;
+    bottom: 70px;
     left: 50%; /* Centered horizontally */
     transform: translateX(-50%);
     cursor: pointer;
@@ -124,6 +76,7 @@ body {
     color: #fff;
     text-decoration: none;
     border: none;
+    z-index: 100; /* Ensure it's on top of everything */
 }
 
 .home-button:before {
@@ -131,16 +84,26 @@ body {
     font-size: 24px;
 }
 
+#badgeList {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
 
-
-
-
+#badgeList li {
+    background: #172635;
+    color: rgb(196, 144, 144);
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+    text-align: center;
+}
 
 /* Basic phone UI styling */
 .phone {
     width: 300px;
     height: 600px;
-    background: #c96553;
+    background: #a1d0e2;
     border: 16px solid black;
     border-radius: 36px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -149,8 +112,8 @@ body {
 
 .screen {
     width: 100%;
-    height: 100%;
-    background: #f5f5f7;
+    height: 4%;
+    background: #d34545;
     border-radius: 20px;
     overflow: hidden;
     position: relative;

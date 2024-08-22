@@ -48,7 +48,8 @@ function updateNewsTicker(news) {
 }
 
 // Example usage:
-updateNewsTicker('Team Waffles is launching new features soon!');
+updateNewsTicker('Team Waffles has BADGES on your Team Waffles Account!'), ('yeehaw')
+
 
 
 
