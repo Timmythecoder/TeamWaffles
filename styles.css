@@ -27,7 +27,7 @@
 .app {
     width: 60px;
     height: 60px;
-    background: #007AFF;
+    background: #ddb499;
     border-radius: 15px;
     display: flex;
     justify-content: center;
@@ -61,7 +61,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #b56666;
+    background-color: #ddb499;
 }
 
 .mainlogo {
@@ -85,7 +85,7 @@ body {
 .iphone {
     width: 300px;
     height: 600px;
-    background: #c96553;
+    background: #ddb499;
     border: 16px solid black;
     border-radius: 36px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -95,7 +95,7 @@ body {
 .screen {
     width: 100%;
     height: 100%;
-    background: #19898d;
+    background: #ddd2c1;
     border-radius: 20px;
     overflow: hidden;
     position: relative;

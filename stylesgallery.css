@@ -15,7 +15,7 @@
 .screen {
     width: 100%;
     height: calc(100% - 40px); /* Adjust height for status bar */
-    background: #f5f5f7;
+    background: #ddd2c1;
     border-radius: 20px;
     overflow: hidden; /* Hide overflow within the screen */
     position: relative;
