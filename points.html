@@ -10,13 +10,19 @@
     <div class="phone">
         <div class="screen">
             <div class="status-bar">
-                <span class="signal"></span>
-                <span class="wifi"></span>
-                <span class="battery"></span>
+                <div class="signal-strength">
+                    <div class="bar bar-1"></div>
+                    <div class="bar bar-2"></div>
+                    <div class="bar bar-3"></div>
+                    <div class="bar bar-4"></div>
+                </div>
+                <span id="current-time"></span>
+                <div class="battery"></div>
+            </div>
             </div>
             <div class="content">
                 <div id="loginFormContainer">
-                    <h2>Login</h2>
+                    <h2>Login with your Team Waffles Account</h2>
                     <form id="loginForm">
                         <input type="text" id="username" placeholder="Username" required>
                         <input type="password" id="password" placeholder="Password" required>
@@ -27,6 +33,15 @@
                 <div id="userInfo" style="display: none;">
                     <h2>Welcome fellow Waffler, <span id="usernameDisplay"></span>!</h2>
                     <p>Your Waffle points: <span id="pointsDisplay"></span></p>
+                    <p>Your Badges:</p>
+                    <ul id="badgeList"></ul>
+                    <button id="showLeaderboard">Show Leaderboard</button>
+                </div>
+                
+                <div id="leaderboardContainer" style="display: none;">
+                    <h2>Leaderboard</h2>
+                    <div id="leaderboard"></div>
+                    <button id="hideLeaderboard">Hide Leaderboard</button>
                 </div>
             </div>
         </div>
@@ -38,144 +53,166 @@
             window.location.replace('index.html');
         }
 
+
+        function updateTime() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12; // The hour '0' should be '12'
+    const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+    const secondsStr = seconds < 10 ? '0' + seconds : seconds;
+
+    const timeString = hours + ':' + minutesStr + ' ' + ampm;
+    document.getElementById('current-time').textContent = timeString;
+}
+
+updateTime();
+setInterval(updateTime, 1000); // Update every second
+
+
+
+
+
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
+    event.preventDefault();
     
-            var points = 0; // Default points value
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+
+    var points = 0; // Default points value
+    var badges = []; // Default badge list
     
-            switch (username) {
-                case 'demo':
-                    if (password === 'password') {
-                        points = 100;
-                    }
-                    break;
-                case 'HARRIS':
-                    if (password === 'HARRIS111') {
-                        points = 925;
-                    }
-                    break;
-                case 'MAX':
-                    if (password === 'MAX222') {
-                        points = 625;
-                    }
-                    break;
-                case 'JACK':
-                    if (password === 'JACK333' || password === 'JACK999') {
-                        points = 125;
-                    }
-                    break;
-                case 'ABI':
-                    if (password === 'ABI444') {
-                        points = 525;
-                    }
-                    break;
-                case 'GINGER':
-                    if (password === 'GINGER555') {
-                        points = 100;
-                    }
-                    break;
-                case 'JAMES':
-                    if (password === 'JAMES666') {
-                        points = 550;
-                    }
-                    break;
-                case 'ANTONYO':
-                    if (password === 'ANTONYO777') {
-                        points = 600;
-                    }
-                    break;
-                case 'HIRO':
-                    if (password === 'HIRO888') {
-                        points = 550;
-                    }
-                    break;
-                case 'NOAH':
-                    if (password === 'NOAH1000') {
-                        points = 175;
-                    }
-                    break;
-                case 'ALEX':
-                    if (password === 'ALEX1111') {
-                        points = 525;
-                    }
-                    break;
-                case 'EMILY':
-                    if (password === 'EMILY2222') {
-                        points = 150;
-                    }
-                    break;
-                case 'HAYLEY':
-                    if (password === 'HAYLEY3333') {
-                        points = 100;
-                    }
-                    break;
-                case 'SHRIYAN':
-                    if (password === 'SHRIYAN4444') {
-                        points = 100;
-                    }
-                    break;
-                case 'MAALAV':
-                    if (password === 'MAALAV5555') {
-                        points = 100;
-                    }
-                    break;
-                case 'LUCAS':
-                    if (password === 'LUCAS6666') {
-                        points = 590;
-                    }
-                    break;
-                case 'JONO':
-                    if (password === 'JONO7777') {
-                        points = 325;
-                    }
-                    break;
-                case 'LOURDES':
-                    if (password === 'LOURDES8888') {
-                        points = 125;
-                    }
-                    break;
-                case 'MATTHEW':
-                    if (password === 'MATTHEW9999') {
-                        points = 515;
-                    }
-                    break;
-                case 'SCARLETT':
-                    if (password === 'SCARLETT11111') {
-                        points = 225;
-                    }
-                    break;
-                case 'BEN':
-                    if (password === 'BEN22222') {
-                        points = 550;
-                    }
-                    break;
-                case 'IAN':
-                    if (password === 'IAN33333') {
-                        points = 111; //225
-                    }
-                    break;
-                case 'SAMUEL':
-                    if (password === 'SAMUEL44444') {
-                        points = 200;
-                    }
-                    break;
-                default:
-                    points = 0;
-                    break;
-            }
+
+    var users = {
+    'Tim': 'OHIO:8400',
+    'HARRIS': 'HARRIS111:1275',
+    'MAX': 'MAX222:875',
+    'JACK': 'JACK333:125',
+    'ABI': 'ABI444:700',
+    'GINGER': 'GINGER555:100',
+    'JAMES': 'JAMES666:550',
+    'ANTONYO': 'ANTONYO777:625',
+    'HIRO': 'HIRO888:640',
+    'NOAH': 'NOAH1000:175',
+    'ALEX': 'ALEX1111:1250',
+    'EMILY': 'EMILY2222:150',
+    'HAYLEY': 'HAYLEY3333:100',
+    'SHRIYAN': 'SHRIYAN4444:100',
+    'MAALAV': 'MAALAV5555:100',
+    'LUCAS': 'LUCAS6666:805',
+    'JONO': 'JONO7777:400',
+    'LOURDES': 'LOURDES8888:125',
+    'MATTHEW': 'MATTHEW9999:1150',
+    'SCARLETT': 'SCARLETT11111:450',
+    'BEN': 'BEN22222:900',
+    'IAN': 'IAN33333:25',
+    'SAMUEL': 'SAMUEL44444:200',
+    'LACHLAN': 'LACHLAN55555:450',
+    'PAYTEN': 'PAYTEN66666:375',
+    'LOUISA': 'LOUISA77777:375',
+    'GABRIEL': 'GABRIEL88888:925',
+    'VIV': 'VIV99999:250',
+    // 'KURAL': 'KURAL11111:100' THINKING
+};
+
+    var userBadges = {
+    'Tim': ['Master Waffler', 'Top Scorer', 'THE TOP G'],
+    'HARRIS': ['Waffle Warrior/OG', 'Top 1 am pro (tradable)', 'The one who chose the login colour #001(tradable)', '23/08/24 FTF Beast and Owner Demolisher (not permenant) (First Owner: Matthew, Max)'],
+    'MAX': ['Waffle Warrior/OG', 'N/A'],
+    'JACK': ['Newbie Waffler'],
+    'ABI': ['Waffle Enthusiast'],
+    'GINGER': ['Rookie Waffler'],
+    'JAMES': ['Waffle Devotee'],
+    'ANTONYO': ['Waffle Enthusiast'],
+    'HIRO': ['Waffle Devotee'],
+    'NOAH': ['Waffle Starter'],
+    'ALEX': ['Waffle Achiever'],
+    'EMILY': ['Waffle Starter'],
+    'HAYLEY': ['Rookie Waffler'],
+    'SHRIYAN': ['Rookie Waffler'],
+    'MAALAV': ['Rookie Waffler'],
+    'LUCAS': ['Waffle Enthusiast', '24/08/24 the guy who actually asked for points (cant blame him)(I give barley any)(tradable)', '30/08/24 FTF Newbie Demolisher'],
+    'JONO': ['Waffle Achiever'],
+    'LOURDES': ['Newbie Waffler'],
+    'MATTHEW': ['Waffle Enthusiast/ Semi OG', 'ohio #01 (tradable)', 'Top 1 am pro (tradable)'],
+    'SCARLETT': ['Waffle Achiever'],
+    'BEN': ['Waffle Master'],
+    'IAN': ['BANNED #BAN0001'],
+    'SAMUEL': ['Waffle Beginner'],
+    'LACHLAN': ['Waffle Beginner', 'TOP G #02 (tradable)'],     
+    'PAYTEN': ['Waffle Beginner'],
+    'LOUISA': ['Waffle Beginner', 'TOP G #02 (tradable)'],     
+    'GABRIEL': ['Waffle Warrior/OG'],
+    'VIV': ['Waffle Warrior/OG'],
     
-            if (points > 0) {
-                document.getElementById('message').textContent = 'Login successful. Redirecting...';
-                document.getElementById('loginFormContainer').style.display = 'none';
-                document.getElementById('userInfo').style.display = 'block';
-                document.getElementById('usernameDisplay').textContent = username;
-                document.getElementById('pointsDisplay').textContent = points;
-            } else {
-                document.getElementById('message').textContent = 'Invalid username or password. Please try again.';
-            }
+};
+    
+    if (users[username] && users[username].split(':')[0] === password) {
+        points = parseInt(users[username].split(':')[1], 10);
+        badges = userBadges[username] || [];
+        document.getElementById('message').textContent = 'Login successful. Redirecting...';
+        document.getElementById('loginFormContainer').style.display = 'none';
+        document.getElementById('userInfo').style.display = 'block';
+        document.getElementById('usernameDisplay').textContent = username;
+        document.getElementById('pointsDisplay').textContent = points;
+
+        // Update the badge list
+        updateBadgeList(badges);
+
+        // Update the leaderboard
+        updateLeaderboard(users);
+    } else {
+        document.getElementById('message').textContent = 'Invalid username or password. Please try again. (dont try and hack other peoples account because they have more points than you :))';
+    }
+});
+
+    function updateBadgeList(badges) {
+    const badgeListElement = document.getElementById('badgeList');
+    badgeListElement.innerHTML = ''; // Clear existing badges
+
+    badges.forEach(badge => {
+        const listItem = document.createElement('li');
+        listItem.textContent = badge;
+        badgeListElement.appendChild(listItem);
+    });
+}
+
+// Existing leaderboard functions remain unchanged
+
+
+        function updateLeaderboard(users) {
+            const leaderboardElement = document.getElementById('leaderboard');
+            leaderboardElement.innerHTML = ''; // Clear existing leaderboard
+
+            // Create a sortable array of users by points
+            const sortedUsers = Object.keys(users).map(user => {
+                return {
+                    name: user,
+                    points: parseInt(users[user].split(':')[1], 10)
+                };
+            }).sort((a, b) => b.points - a.points);
+
+            // Populate the leaderboard
+            sortedUsers.forEach(user => {
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+                item.innerHTML = `${user.name} <span>${user.points}</span>`;
+                leaderboardElement.appendChild(item);
+            });
+
+            document.getElementById('leaderboardContainer').style.display = 'block';
+        }
+
+        document.getElementById('showLeaderboard').addEventListener('click', function() {
+            document.getElementById('leaderboardContainer').style.display = 'block';
+        });
+
+        document.getElementById('hideLeaderboard').addEventListener('click', function() {
+            document.getElementById('leaderboardContainer').style.display = 'none';
         });
     </script>
 </body>

@@ -5,13 +5,13 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-color: #3b4b81;
 }
 
 .phone {
     width: 300px;
     height: 600px;
-    background: #fff;
+    background: #3b4b81;
     border: 16px solid black;
     border-radius: 36px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -22,15 +22,101 @@ body {
     justify-content: space-between;
 }
 
+
+
+.signal, .wifi, .battery {
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#message {
+    margin-top: 10px;
+    color: red;
+}
+
+.leaderboard-item {
+    width: 100%;
+    background: #007AFF;
+    color: #fff;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.home-button {
+    width: 50px;
+    height: 50px;
+    background: #333;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 70px;
+    left: 50%; /* Centered horizontally */
+    transform: translateX(-50%);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    z-index: 100; /* Ensure it's on top of everything */
+}
+
+.home-button:before {
+    content: '\2190'; /* Unicode for left arrow */
+    font-size: 24px;
+}
+
+#badgeList {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+#badgeList li {
+    background: #172635;
+    color: rgb(196, 144, 144);
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Basic phone UI styling */
+.phone {
+    width: 300px;
+    height: 600px;
+    background: #a1d0e2;
+    border: 16px solid black;
+    border-radius: 36px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
 .screen {
-    width: calc(100% - 32px);
-    height: calc(100% - 96px);
-    background: #f5f5f7;
+    width: 100%;
+    height: 4%;
+    background: #d34545;
     border-radius: 20px;
     overflow: hidden;
     position: relative;
-    padding: 16px;
-    box-sizing: border-box;
 }
 
 .status-bar {
@@ -44,73 +130,89 @@ body {
 }
 
 .signal, .wifi, .battery {
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     background: #fff;
-    border-radius: 50%;
 }
 
+/* Content styling */
 .content {
-    height: calc(100% - 40px);
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    height: calc(100% - 40px);
+    overflow-y: auto; /* Allows scrolling if needed */
 }
 
-#loginFormContainer, #userInfo {
+/* Login form styling */
+#loginFormContainer {
     text-align: center;
 }
 
-#loginFormContainer form, #userInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+#loginForm input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-#loginFormContainer h2, #userInfo h2 {
-    margin-top: 0;
-}
-
-#loginFormContainer input, #loginFormContainer button {
-    margin-bottom: 10px;
-    padding: 8px;
-    font-size: 16px;
-}
-
-#loginFormContainer button {
-    background-color: #007bff;
-    color: white;
+#loginForm button {
+    padding: 10px;
     border: none;
+    background: #007bff;
+    color: #fff;
     cursor: pointer;
-    width: 100%;
+    border-radius: 5px;
 }
 
 #message {
-    margin-top: 10px;
     color: red;
+    margin-top: 10px;
 }
 
-.home-button {
-    width: 50px;
-    height: 50px;
-    background: #333;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 20px;
-    left: 50%; /* Centered horizontally */
-    transform: translateX(-50%);
-    cursor: pointer;
+#leaderboardContainer {
+    background: #fff;
+    border: 2px solid #0b0b0b;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 300px;
+    margin: 20px auto;
+    position: relative;
+    z-index: 10; /* Ensure it's above other content */
+}
+
+#leaderboard {
+    max-height: 200px; /* Adjust based on your preference */
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.leaderboard-item {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    text-decoration: none;
-    border: none;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 }
 
-.home-button:before {
-    content: '\2190'; /* Unicode for left arrow */
-    font-size: 24px;
+.leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+#showLeaderboard, #hideLeaderboard {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#hideLeaderboard {
+    position: absolute;
+    top: 0px;
+    right: 13px;
 }

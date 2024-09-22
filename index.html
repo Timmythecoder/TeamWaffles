@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- tim was here -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Waffles Phone</title>
@@ -8,40 +11,81 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="loading-screen">
+        <div class="spinner"></div>
+    </div>
+    
     <div class="container">
-    <div class="text"
-        <h2>Team Waffles Interface</h2>
+    
 
-    </div>
 
-    <div class="iphone">
-        <div class="screen">
-            <div class="status-bar">
-                <span class="signal"></span>
-                <span class="wifi"></span>
-                <span class="battery"></span>
-            </div>
-            <div class="content">
-                <div class="app" onclick="navigateTo('points.html')">Login</div>
-             <!-- <div class="app" onclick="navigateTo('signup.html')">Sign Up</div>-->  
-                <div class="app" onclick="navigateTo('index.html')">Home</div>
-                <div class="app" onclick="navigateTo('songrequest.html')">Songs</div>
-                <div class="app" onclick="navigateTo('calandar.html')">Schedule</div>
-                <div class="app" onclick="navigateTo('info.html')">Info</div>
-                <div class="app" onclick="navigateTo('feedback.html')">Feedback</div>
-                <div class="app" onclick="navigateTo('gallery.html')">Gallery</div>
-                <br>
-                <br>
-                <img class="mainlogo" src="TWL O - Copy.png"> 
-                       
-            </div>
+        <div class="text">
+            <h2>Team Waffles Interface</h2>
         </div>
-       <br>
-       <br>
-        <div class="home-button"></div>
-        <br>
-        <br>
+
+        <div class="iphone">
+            <div class="screen">
+                <div class="status-bar">
+                    <div class="signal-strength">
+                        <div class="bar bar-1"></div>
+                        <div class="bar bar-2"></div>
+                        <div class="bar bar-3"></div>
+                        <div class="bar bar-4"></div>
+                    </div>
+                    <span id="current-time"></span>
+                    <div class="battery"></div>
+                </div>
+                
+              <!-- use later 
+  <div class="scrolling-text-container">
+                    <div id="scrolling-text"></div>
+                </div>
+                -->
+                <div class="widget news-ticker">
+                    <marquee id="news-ticker-text">Latest News: Welcome to Team Waffles Interface!</marquee>
+                </div>
+                
+                
+                <div class="content">
+                    <div class="app" onclick="navigateTo('points.html')">
+                        <img src="8.png" alt="Login Icon">
+                    </div>
+                    <div class="app" onclick="navigateTo('index.html')">
+                        <img src="10.png" alt="Home Icon">
+                    </div>
+                    <div class="app" onclick="navigateTo('songrequest.html')">
+                        <img src="16.png" alt="Songs Icon">
+                    </div>
+                    <div class="app" onclick="navigateTo('calandar.html')">
+                        <img src="4.png" alt="Schedule Icon">
+                    </div>
+                    <div class="app" onclick="navigateTo('info.html')">
+                        <img src="infolg.png" alt="Info Icon">
+                    </div>
+                    <div class="app" onclick="navigateTo('feedback.html')">
+                        <img src="12.png" alt="Feedback Icon">
+                    </div>
+
+                    <div class="app" onclick="navigateTo('gamerequests.html')">
+                        <img src="gamerequestsicon.png" alt="Game Requsts Icon">
+                    </div>
+                    
+                    <div class="app" onclick="navigateTo('gallery.html')">
+                        <img src="7.png" alt="Gallery Icon">
+                    </div>
+                </div>
+                
+                
+                    <img class="mainlogo" src="TWL O - Copy.png"> 
+
+                </div>
+            </div>
+            
+            <div class="home-button"></div>
+            
+        </div>
     </div>
+</div>
     <script src="script.js"></script>
 </body>
 </html>

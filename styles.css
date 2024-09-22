@@ -1,10 +1,67 @@
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.app {
+    width: 60px;
+    height: 60px;
+    background: #ddb499;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 14px;
+    margin: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.app:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.app img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #b56666;
+    background-color: #ddb499;
 }
 
 .mainlogo {
@@ -23,11 +80,12 @@ body {
     transform: translateX(-50%);
     font-size: 20; /* Adjust the font size of the heading */
     color: #333; /* Dark gray text color */
-  }
+}
+
 .iphone {
     width: 300px;
     height: 600px;
-    background: #c96553;
+    background: #ddb499;
     border: 16px solid black;
     border-radius: 36px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -37,7 +95,7 @@ body {
 .screen {
     width: 100%;
     height: 100%;
-    background: #f5f5f7;
+    background: #ddd2c1;
     border-radius: 20px;
     overflow: hidden;
     position: relative;
@@ -51,12 +109,102 @@ body {
     justify-content: space-between;
     padding: 0 10px;
     align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #333;
 }
 
-.signal, .wifi, .battery {
-    width: 20px;
-    height: 20px;
+
+#current-time {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+
+
+
+
+
+
+.signal-strength {
+    display: flex;
+    gap: 2px;
+}
+
+.signal-strength .bar {
+    width: 3px;
     background: #fff;
+}
+
+.signal-strength .bar.bar-1 { height: 4px; } /* Shortest bar */
+.signal-strength .bar.bar-2 { height: 6px; }
+.signal-strength .bar.bar-3 { height: 8px; }
+.signal-strength .bar.bar-4 { height: 10px; } /* Longest bar */
+
+/*.scrolling-text-container {
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+    background-color: #ffcc00; /* Default background color */
+    /*display: flex;
+    align-items: center;
+}*/
+
+
+
+
+.news-ticker {
+    width: 100%;
+    height: 30px;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+#news-ticker-text {
+    white-space: nowrap;
+}
+
+
+
+#scrolling-text {
+    white-space: nowrap;
+    position: absolute;
+    font-size: 16px;
+    color: #000; /* Text color */
+    animation: scrollText 10s linear infinite;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%); /* Start completely off the right */
+    }
+    100% {
+        transform: translateX(-100%); /* Move completely off the left */
+    }
+}
+
+
+.battery {
+    width: 20px;
+    height: 10px;
+    background: #fff;
+    border-radius: 2px;
+    position: relative;
+}
+
+.battery:before {
+    content: '';
+    width: 4px;
+    height: 6px;
+    background: #fff;
+    position: absolute;
+    left: -6px; /* Battery "head" positioned on the left */
+    top: 2px;
 }
 
 .content {
@@ -70,7 +218,7 @@ body {
 .app {
     width: 60px;
     height: 60px;
-    background: #007AFF;
+    background: linear-gradient(145deg, #007AFF, #0063e0);
     border-radius: 15px;
     display: flex;
     justify-content: center;
@@ -79,6 +227,12 @@ body {
     font-size: 14px;
     margin: 10px;
     cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s ease;
+}
+
+.app:active {
+    transform: scale(0.95);
 }
 
 .home-button {
@@ -90,4 +244,5 @@ body {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
