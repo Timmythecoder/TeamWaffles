@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Form</title>
+    <title>Game Request Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -149,9 +149,9 @@
             </div>
             <div class="content">
                 <div class="form-container">
-                    <h2>Feedback Form</h2>
+                    <h2>Send Your Game Request</h2>
                     <div class="form-group">
-                        <label for="songName">Feedback:</label>
+                        <label for="songName">Game Title:</label>
                         <input type="text" id="songName" name="songName" required>
                     </div>
                     <div class="form-group">
@@ -159,11 +159,11 @@
                         <input type="text" id="artist" name="artist" required>
                     </div>
                     <div class="form-group">
-                        <label for="message">Message:</label>
+                        <label for="message">Anything Extra needed:</label>
                         <textarea id="message" name="message"></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="button" onclick="sendSongRequest()">Submit Feedback</button>
+                        <button type="button" onclick="sendSongRequest()">Submit Game Request</button>
                     </div>
                     <p id="statusMessage"></p>
                 </div>
@@ -202,7 +202,7 @@
             };
 
             // Replace with your actual Discord webhook URL
-            const webhookUrl = 'https://discord.com/api/webhooks/1099631197010800641/0-76iAHXdnz2YHzy6ZJlAcmhwSeI36QxFiK6AKgm5EAsFGylEqpI7e71mLNc7P5CEk1p';
+            const webhookUrl = 'https://discord.com/api/webhooks/1287276145657647114/dD1Rfio-SGqaHDGNrhMpvNKR8nlGQT79aWhd9OJ0LdUkzFLDI6I4BCJ3xPymehXM2Ps-';
 
             // Send POST request to Discord webhook
             fetch(webhookUrl, {
@@ -216,10 +216,10 @@
                 if (response.ok) {
                     // Update local storage with current timestamp
                     localStorage.setItem(cooldownKey, Date.now());
-                    document.getElementById('statusMessage').textContent = 'Feedback sent successfully!';
+                    document.getElementById('statusMessage').textContent = 'Game Request Sent Succesfully!';
                     document.getElementById('statusMessage').style.color = 'green';
                 } else {
-                    document.getElementById('statusMessage').textContent = 'Failed to send song request.';
+                    document.getElementById('statusMessage').textContent = 'Failed to send Game Request.';
                     document.getElementById('statusMessage').style.color = 'red';
                 }
             })
