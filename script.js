@@ -58,3 +58,13 @@ updateNewsTicker('Team Waffles has BADGES on your Team Waffles Account!'), ('yee
 window.addEventListener('load', function() {
     document.getElementById('loading-screen').style.display = 'none';
 });
+
+
+function navigateTo(page) {
+    window.location.href = page;
+}
+function navigateToChat() {
+    // Redirect to your chat webpage (replace with your actual chat page URL)
+    window.location.href = 'https://timmythecoder.github.io/TeamWafflesChat/'; // Or full URL if external, e.g., 'https://example.com/chat'
+}
+
