@@ -1,24 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <!-- tim was here -->
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Waffles Phone</title>
     <link rel="icon" href="TWL O - Copy.png" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #84c3e2; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        h1 { 
+            text-align: center; 
+            color: #333; 
+        }
+        #ads { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 20px; 
+            margin: 20px 0; /* Added margin for separation */
+        }
+        .ad { 
+            background: #fff; 
+            padding: 10px; /* Adjusted padding for smaller devices */
+            border-radius: 8px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+            width: 90%; /* Use percentage width for responsiveness */
+            max-width: 600px; 
+            text-align: center; 
+        }
+        .ad h2 { 
+            margin: 0; 
+            font-size: 20px; /* Adjusted font size for smaller screens */
+            color: #007BFF; 
+        }
+        .ad p { 
+            font-size: 14px; /* Adjusted font size for smaller screens */
+            color: #555; 
+        }
+        .ad-image { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 5px; 
+            margin-top: 10px; 
+        }
+    </style>
 </head>
 <body>
-    <div id="loading-screen">
-        <div class="spinner"></div>
-    </div>
-    
+  
+    <div id="ads">Loading Ads...</div> <!-- Ads at the top -->
+  
     <div class="container">
-    
-
-
         <div class="text">
             <h2>Team Waffles Interface</h2>
         </div>
@@ -35,17 +71,11 @@
                     <span id="current-time"></span>
                     <div class="battery"></div>
                 </div>
-                
-              <!-- use later 
-  <div class="scrolling-text-container">
-                    <div id="scrolling-text"></div>
-                </div>
-                -->
+
                 <div class="widget news-ticker">
                     <marquee id="news-ticker-text">Latest News: Welcome to Team Waffles Interface!</marquee>
                 </div>
-                
-                
+
                 <div class="content">
                     <div class="app" onclick="navigateTo('points.html')">
                         <img src="8.png" alt="Login Icon">
@@ -62,30 +92,66 @@
                     <div class="app" onclick="navigateTo('info.html')">
                         <img src="infolg.png" alt="Info Icon">
                     </div>
+                    <div class="app" onclick="navigateToChat()">
+                        <img src="chaticon.png" alt="Chat Icon">
+                    </div>
                     <div class="app" onclick="navigateTo('feedback.html')">
                         <img src="12.png" alt="Feedback Icon">
                     </div>
-
                     <div class="app" onclick="navigateTo('gamerequests.html')">
-                        <img src="gamerequestsicon.png" alt="Game Requsts Icon">
+                        <img src="gamerequestsicon.png" alt="Game Requests Icon">
                     </div>
-                    
                     <div class="app" onclick="navigateTo('gallery.html')">
                         <img src="7.png" alt="Gallery Icon">
                     </div>
+                    <div class="app" onclick="navigateTo('application.html')"> <!-- Added link to ad application -->
+                        <img src="adlogo.png" alt="Ad Application Icon"> <!-- Use a suitable icon for the ad application -->
+                    </div>
                 </div>
                 
-                
-                    <img class="mainlogo" src="TWL O - Copy.png"> 
-
-                </div>
             </div>
-            
-            <div class="home-button"></div>
-            
         </div>
     </div>
-</div>
+
+    <div id="ads"></div> <!-- Ads at the bottom -->
+    <div id="info" class="info"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8qeTBv9vgVlCMOQjFXPAGMkd7wHbKVe8",
+            authDomain: "team-waffles-sys.firebaseapp.com",
+            projectId: "team-waffles-sys",
+            storageBucket: "team-waffles-sys.firebasestorage.app",
+            messagingSenderId: "824743077785",
+            appId: "1:824743077785:web:31f5c51d26b2088b71d508",
+            measurementId: "G-D2G5DV44ZC"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function loadData() {
+            const adsRef = db.ref("content/ads");
+
+            adsRef.on("value", (snapshot) => {
+                const adsData = snapshot.val() || {};
+                const firstAd = adsData.firstAd 
+                    ? `<div class="ad"><h2>First Ad</h2><p>${adsData.firstAd.text}</p><img src="${adsData.firstAd.image}" alt="First Ad Image" class="ad-image"></div>` 
+                    : `<div class="ad"><h2>First Ad</h2><p>No first ad available</p></div>`;
+                
+                const secondAd = adsData.secondAd 
+                    ? `<div class="ad"><h2>Second Ad</h2><p>${adsData.secondAd.text}</p><img src="${adsData.secondAd.image}" alt="Second Ad Image" class="ad-image"></div>` 
+                    : `<div class="ad"><h2>Second Ad</h2><p>No second ad available</p></div>`;
+
+                document.getElementById("ads").innerHTML = firstAd + secondAd; // Update both ads
+            });
+        }
+
+        loadData();
+    </script>
+
     <script src="script.js"></script>
 </body>
 </html>
