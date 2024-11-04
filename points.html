@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Waffles Points</title>
     <link rel="stylesheet" href="points.css">
+    <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+
 </head>
 <body>
     <div class="phone">
@@ -89,34 +95,37 @@ setInterval(updateTime, 1000); // Update every second
 
     var users = {
     'Tim': 'OHIO:8400',
-    'HARRIS': 'HARRIS111:1275',
-    'MAX': 'MAX222:875',
+    'HARRIS': 'HARRIS111:1300',
+    'MAX': 'MAX222:1000',
     'JACK': 'JACK333:125',
     'ABI': 'ABI444:700',
     'GINGER': 'GINGER555:100',
     'JAMES': 'JAMES666:550',
-    'ANTONYO': 'ANTONYO777:625',
-    'HIRO': 'HIRO888:640',
+    'ANTONYO': 'ANTONYO777:650',
+    'HIRO': 'HIRO888:800',
     'NOAH': 'NOAH1000:175',
-    'ALEX': 'ALEX1111:1250',
+    'ALEX': 'ALEX1111:1400',
     'EMILY': 'EMILY2222:150',
     'HAYLEY': 'HAYLEY3333:100',
-    'SHRIYAN': 'SHRIYAN4444:100',
-    'MAALAV': 'MAALAV5555:100',
-    'LUCAS': 'LUCAS6666:805',
+    'SHRIYAN': 'SHRIYAN4444:125',
+    'MAALAV': 'MAALAV5555:125',
+    'LUCAS': 'LUCAS6666:830',
     'JONO': 'JONO7777:400',
     'LOURDES': 'LOURDES8888:125',
-    'MATTHEW': 'MATTHEW9999:1150',
+    'MATTHEW': 'MATTHEW9999:000',//1150
     'SCARLETT': 'SCARLETT11111:450',
-    'BEN': 'BEN22222:900',
-    'IAN': 'IAN33333:25',
+    'BEN': 'BEN22222:000',//900
+    'IAN': 'IAN33333:75',
     'SAMUEL': 'SAMUEL44444:200',
-    'LACHLAN': 'LACHLAN55555:450',
+    'LACHLAN': 'LACHLAN55555:500',
     'PAYTEN': 'PAYTEN66666:375',
     'LOUISA': 'LOUISA77777:375',
-    'GABRIEL': 'GABRIEL88888:925',
-    'VIV': 'VIV99999:250',
-    // 'KURAL': 'KURAL11111:100' THINKING
+    'GABRIEL': 'GABRIEL88888:1150',
+    'VIV': 'VIV99999:375',
+    'KURAL': 'KURAL11111:200',
+    'KIRISH': 'KIRISH22222:150',
+    'BENTLEY': 'BENTLEY33333:100',
+    'JESSE': 'JESSE44444:150'
 };
 
     var userBadges = {
@@ -138,16 +147,20 @@ setInterval(updateTime, 1000); // Update every second
     'LUCAS': ['Waffle Enthusiast', '24/08/24 the guy who actually asked for points (cant blame him)(I give barley any)(tradable)', '30/08/24 FTF Newbie Demolisher'],
     'JONO': ['Waffle Achiever'],
     'LOURDES': ['Newbie Waffler'],
-    'MATTHEW': ['Waffle Enthusiast/ Semi OG', 'ohio #01 (tradable)', 'Top 1 am pro (tradable)'],
+   // 'MATTHEW': ['Waffle Enthusiast/ Semi OG', 'ohio #01 (tradable)', 'Top 1 am pro (tradable)'],
     'SCARLETT': ['Waffle Achiever'],
-    'BEN': ['Waffle Master'],
-    'IAN': ['BANNED #BAN0001'],
+    //'BEN': ['Waffle Master'],
+    'IAN': ['Waffle Starter', '22/09/24 the guy who actually asked for points (cant blame him)(I give barley any)(tradable)'],
     'SAMUEL': ['Waffle Beginner'],
     'LACHLAN': ['Waffle Beginner', 'TOP G #02 (tradable)'],     
     'PAYTEN': ['Waffle Beginner'],
     'LOUISA': ['Waffle Beginner', 'TOP G #02 (tradable)'],     
     'GABRIEL': ['Waffle Warrior/OG'],
     'VIV': ['Waffle Warrior/OG'],
+    'KURAL': ['Waffle Newbie', 'Car Waffle (asked)'],
+    'KIRISH': ['Waffle Newbie', 'Field Waffle Marshal (asked)'],
+    'BENTLEY': ['Waffle Newbie', '100th Person to do the Survey 04/10/24, 10:30pm'],
+    'JESSE': ['Waffle OG']
     
 };
     
