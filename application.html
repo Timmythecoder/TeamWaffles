@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Request Form</title>
+    <title>Ad Application Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -93,16 +93,6 @@
             font-size: 14px;
         }
 
-        .form-group textarea {
-            width: calc(100% - 10px);
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            resize: vertical;
-            height: 100px;
-        }
-
         .form-group button {
             background-color: #007bff;
             color: #fff;
@@ -137,6 +127,12 @@
             content: '\2190'; /* Unicode for left arrow */
             font-size: 24px;
         }
+
+        .cost {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -146,24 +142,26 @@
                 <span class="signal"></span>
                 <span class="wifi"></span>
                 <span class="battery"></span>
+
             </div>
             <div class="content">
                 <div class="form-container">
-                    <h2>Send Your Game Request</h2>
+                    <h2>Ad Application Form</h2>
+                    <p class="cost">Cost: 150 TW Points for 7 days PER AD</p>
                     <div class="form-group">
-                        <label for="songName">Game Title:</label>
-                        <input type="text" id="songName" name="songName" required>
+                        <label for="userName">Your Name:</label>
+                        <input type="text" id="userName" name="userName" required>
                     </div>
                     <div class="form-group">
-                        <label for="artist">Who's sending:</label>
-                        <input type="text" id="artist" name="artist" required>
+                        <label for="adTitle">Ad Title:</label>
+                        <input type="text" id="adTitle" name="adTitle" required>
                     </div>
                     <div class="form-group">
-                        <label for="message">Anything Extra needed:</label>
-                        <textarea id="message" name="message"></textarea>
+                        <label for="adContent">Ad Content:</label>
+                        <input type="text" id="adContent" name="adContent" required>
                     </div>
                     <div class="form-group">
-                        <button type="button" onclick="sendSongRequest()">Submit Game Request</button>
+                        <button type="button" onclick="sendAdRequest()">Submit Ad</button>
                     </div>
                     <p id="statusMessage"></p>
                 </div>
@@ -171,17 +169,14 @@
         </div>
         <a href="index.html" class="home-button"></a>
     </div>
-</head>
-<body>
-  
 
     <script>
-        function sendSongRequest() {
-            const songName = document.getElementById('songName').value;
-            const artist = document.getElementById('artist').value;
-            const message = document.getElementById('message').value;
+        function sendAdRequest() {
+            const userName = document.getElementById('userName').value;
+            const adTitle = document.getElementById('adTitle').value;
+            const adContent = document.getElementById('adContent').value;
 
-            const cooldownKey = 'songRequestCooldown';
+            const cooldownKey = 'adRequestCooldown';
             const cooldownDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
 
             // Check local storage for last request timestamp
@@ -191,18 +186,18 @@
                 // Cooldown period not expired
                 const remainingTime = cooldownDuration - (Date.now() - lastRequestTime);
                 const remainingMinutes = Math.ceil(remainingTime / 1000 / 60);
-                document.getElementById('statusMessage').textContent = `Please wait ${remainingMinutes} minutes before submitting another request.`;
+                document.getElementById('statusMessage').textContent = `Please wait ${remainingMinutes} minutes before submitting another ad request.`;
                 document.getElementById('statusMessage').style.color = 'red';
                 return;
             }
 
             // Prepare JSON payload
             const payload = {
-                content: `New Game Request:\n**Feedback:** ${songName}\n**Who's Sending:** ${artist}\n\n${message}`
+                content: `New Ad Application:\n**Name:** ${userName}\n**Title:** ${adTitle}\n**Content:** ${adContent}`
             };
 
             // Replace with your actual Discord webhook URL
-            const webhookUrl = 'https://discord.com/api/webhooks/1287276145657647114/dD1Rfio-SGqaHDGNrhMpvNKR8nlGQT79aWhd9OJ0LdUkzFLDI6I4BCJ3xPymehXM2Ps-';
+            const webhookUrl = 'https://discord.com/api/webhooks/1302231295635492936/uc2eaEvwH3LoUrx2INFKhZEx8prP5wc0amhbjORoRMUwVS-atEXvR8vfkSomAcs4bB_N';
 
             // Send POST request to Discord webhook
             fetch(webhookUrl, {
@@ -216,15 +211,15 @@
                 if (response.ok) {
                     // Update local storage with current timestamp
                     localStorage.setItem(cooldownKey, Date.now());
-                    document.getElementById('statusMessage').textContent = 'Game Request Sent Succesfully!';
+                    document.getElementById('statusMessage').textContent = 'Ad submitted successfully!';
                     document.getElementById('statusMessage').style.color = 'green';
                 } else {
-                    document.getElementById('statusMessage').textContent = 'Failed to send Game Request.';
+                    document.getElementById('statusMessage').textContent = 'Failed to send ad request.';
                     document.getElementById('statusMessage').style.color = 'red';
                 }
             })
             .catch(error => {
-                console.error('Error sending feedback:', error);
+                console.error('Error sending ad request:', error);
                 document.getElementById('statusMessage').textContent = 'An error occurred while sending the request.';
                 document.getElementById('statusMessage').style.color = 'red';
             });
@@ -232,4 +227,3 @@
     </script>
 </body>
 </html>
-
