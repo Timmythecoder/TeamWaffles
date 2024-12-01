@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Team Waffles</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2b2b2b;
+            margin: 0;
+            padding: 0;
+            color: #f5f5f5;
+            text-align: center;
+        }
+
+        #buy-crate-btn {
+            background-color: #a5fbb5;
+            color: #2b2b2b;
+            font-size: 1.5em;
+            padding: 15px 30px;
+            border: 2px solid #61dafb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #buy-crate-btn:hover {
+            background-color: #61dafb;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        #crate-item-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        #crate-result {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #61dafb;
+        }
+
+        #user-info,
+        #crate-section,
+        #crate-result,
+        #notification {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #555;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #crate-video {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #crate-video video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff1a1a;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 35px;
+            justify-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            width: 130px;
+            padding: 10px;
+            background-color: #666;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .card img {
+            max-width: 80%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-name {
+            font-size: 1.2em;
+            color: #a5fbb5;
+        }
+
+        .card-rarity {
+            font-size: 1em;
+            color: #ff9a9e;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1000;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.9);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content (image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* Caption of Modal Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        /* Add Animation - Zoom in the Modal */
+        .modal-content,
+        #caption {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        
+        .home-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #33aaa8;
+            color: #2b2b2b;
+            border: 2px solid #61dafb;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to the shop, <span id="username-display"></span></h1>
+        <div id="user-info">
+            <p><strong>Points:</strong> <span id="points-display"></span></p>
+            <p><strong>Cards:</strong> <span id="cards-display"></span></p>
+        </div>
+        <div id="crate-section" class="crate-section">
+            <p><strong>Crate Cost:</strong> <span id="crate-cost"></span> points</p> <button id="buy-crate-btn">Buy
+                Crate</button>
+        </div>
+        <div id="crate-video"> <video id="video-unboxing" muted>
+                <source src="TW SPIN WHEEL UPD.mp4" type="video/mp4"> Your browser does not support the video tag.
+            </video> </div>
+        <div id="crate-result">
+            <p>You got an <span id="crate-item"></span>!</p> <img id="crate-item-image" src="" alt="Winning card image"
+                style="display:none;">
+        </div>
+        <div id="notification">
+            <p>You received a <span id="notification-item"></span>!</p>
+        </div>
+        <div id="trading-cards">
+            <h2>Your Trading Cards</h2>
+            <div id="cards-container" class="cards-grid"></div>
+        </div>                
+        <a href="dashboard.html" class="home-button">Back To Dashboard</a>
+    </div> <!-- Modal for viewing images larger -->
+    <div id="imageModal" class="modal"> <span class="close">&times;</span> <img class="modal-content" id="modal-image">
+        <div id="caption"></div>
+    </div>
+
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getDatabase, ref, get, update } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyAPl8uaPdFS89m6X4M3OrzTSSeHhw-GkRkRk",
+            authDomain: "team-waffles-acs.firebaseapp.com",
+            projectId: "team-waffles-acs",
+            storageBucket: "team-waffles-acs.appspot.com",
+            messagingSenderId: "636130806538",
+            appId: "1:636130806538:web:281c39ba2e72debd2748f3",
+            measurementId: "G-HEC29JWVFL"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+    
+        const username = localStorage.getItem('username');
+        const userRef = ref(db, 'users/' + username);
+        const configRef = ref(db, 'config/prices/crates');
+        const raritiesRef = ref(db, 'config/rarities');
+        const cardsRef = ref(db, 'system-cards');
+    
+        document.getElementById('username-display').textContent = username;
+    
+        let crateCost = 0;
+        let rarities = [];
+        let cards = [];
+    
+        function getRandomRarity() {
+    const random = Math.random() * 100;
+    let cumulativeProbability = 0;
+    console.log('Random Value:', random); // Debugging line
+
+    for (const rarity of rarities) {
+        const probability = parseFloat(rarity.probability); // Ensure probability is a number
+        if (isNaN(probability)) {
+            console.error(`Invalid probability value for rarity ${rarity.name}`);
+            continue; // Skip this rarity if the probability is not a valid number
+        }
+        
+        cumulativeProbability += probability;
+        console.log(`Checking Rarity: ${rarity.name}, Cumulative Probability: ${cumulativeProbability}`); // Debugging line
+        if (random <= cumulativeProbability) {
+            console.log(`Selected Rarity: ${rarity.name}`); // Debugging line
+            return rarity.name;
+        }
+    }
+
+    console.log('No rarity matched, check probabilities configuration.');
+    return rarities[0].name; // Default to the first rarity in case something goes wrong
+}
+
+
+function getCardByRarity() {
+    const rarity = getRandomRarity();
+    const filteredCards = cards.filter(card => card.rarity === rarity);
+    console.log(`Filtered Cards for Rarity (${rarity}):`, filteredCards); // Debugging line
+    if (filteredCards.length === 0) {
+        return null; // In case no cards match the rarity
+    }
+    const randomIndex = Math.floor(Math.random() * filteredCards.length);
+    return filteredCards[randomIndex];
+}
+
+    
+        function logout() {
+            localStorage.removeItem('username');
+            window.location.href = 'dashboard.html';
+        }
+    
+        // Get the modal
+        const modal = document.getElementById('imageModal');
+    
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        const modalImg = document.getElementById("modal-image");
+        const captionText = document.getElementById("caption");
+    
+        // Function to open the modal with the clicked image
+        function openModal(src, alt) {
+            modal.style.display = "block";
+            modalImg.src = src;
+            captionText.innerHTML = alt;
+        }
+    
+        // Get the <span> element that closes the modal
+        const span = document.getElementsByClassName("close")[0];
+    
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    
+        // Fetch crate cost
+        get(configRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                crateCost = snapshot.val().cost;
+                document.getElementById('crate-cost').textContent = crateCost;
+            } else {
+                alert('Crate cost configuration not found.');
+            }
+        }).catch((error) => {
+            console.error('Error fetching crate cost:', error);
+        });
+    
+        // Fetch rarities
+        get(raritiesRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const fetchedRarities = snapshot.val();
+                rarities = Object.entries(fetchedRarities).map(([name, data]) => ({
+                    name,
+                    probability: data.probability
+                }));
+            } else {
+                alert('Rarities configuration not found. DO NOT SPIN, YOUR DATA MAY BE LOST Contact Code Management (Tim) ERROR CODE: NO');
+            }
+        }).catch((error) => {
+            console.error('Error fetching rarities:', error);
+        });
+    
+        // Fetch cards
+        get(cardsRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const fetchedCards = snapshot.val();
+                cards = Object.values(fetchedCards);
+            } else {
+                alert('Cards data not found.');
+            }
+        }).catch((error) => {
+            console.error('Error fetching cards:', error);
+        });
+    
+        // Fetch user data
+        get(userRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const user = snapshot.val();
+                document.getElementById('points-display').textContent = user.points || 0;
+                document.getElementById('cards-display').textContent = user.cards ? user.cards.length : 0;
+                displayTradingCards(user.cards || []);
+            } else {
+                alert('User data not found.');
+            }
+        }).catch((error) => {
+            console.error('Error fetching user data:', error);
+        });
+    
+        document.getElementById('buy-crate-btn').addEventListener('click', () => {
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const user = snapshot.val();
+                    const points = user.points || 0;
+    
+                    if (points >= crateCost) {
+                        const newPoints = points - crateCost;
+                        update(userRef, { points: newPoints }).then(() => {
+                            startCrateUnboxing();
+                        }).catch((error) => {
+                            console.error('Error updating points:', error);
+                        });
+                    } else {
+                        alert('Not enough points.');
+                    }
+                } else {
+                    alert('User data not found.');
+                }
+            }).catch((error) => {
+                console.error('Error fetching user data:', error);
+            });
+        });
+    
+        function startCrateUnboxing() {
+            const video = document.getElementById('video-unboxing');
+            video.style.display = 'block';
+            video.play();
+            video.controls = false;
+    
+            setTimeout(() => {
+                video.pause();
+                video.style.display = 'none';
+                console.log("Selecting card based on rarity...");
+    
+                const card = getCardByRarity();
+    
+                if (card) {
+                    console.log("Selected card:", card);
+                    displayCardResult(card); // Make sure to call displayCardResult
+                } else {
+                    alert('No cards available for the selected rarity.');
+                }
+            }, 3000);
+        }
+    
+        function displayCardResult(card) {
+            const crateItemElement = document.getElementById('crate-item');
+            const crateResultElement = document.getElementById('crate-result');
+            const crateItemImageElement = document.getElementById('crate-item-image');
+            const notificationElement = document.getElementById('notification');
+            const notificationItemElement = document.getElementById('notification-item');
+    
+            console.log('Displaying card result:', card);
+    
+            if (crateItemElement && crateResultElement && crateItemImageElement && notificationElement && notificationItemElement) {
+                crateItemElement.textContent = `${card.name} (${card.rarity})`;
+                crateItemImageElement.src = card.image;
+                crateItemImageElement.style.display = 'block';
+                crateResultElement.style.display = 'block';
+                notificationElement.style.display = 'block';
+                notificationItemElement.textContent = `${card.name} (${card.rarity})`;
+    
+                saveCard(card).then(() => {
+                    console.log('Card saved successfully');
+    
+                    setTimeout(() => {
+                        notificationElement.style.display = 'none';
+                        crateResultElement.style.display = 'none';
+                        crateItemImageElement.style.display = 'none';
+                        location.reload(); // Refresh the screen to show updated cards
+                    }, 3000);
+                }).catch((error) => {
+                    console.error('Error saving card:', error);
+                });
+            } else {
+                console.error('One or more elements not found.');
+            }
+        }
+    
+        function saveCard(card) {
+            return get(userRef).then((snapshot) => {
+                const user = snapshot.val();
+                let newCards = user.cards || [];
+    
+                // Ensure newCards is an array
+                if (!Array.isArray(newCards)) {
+                    newCards = Object.values(newCards);
+                }
+    
+                newCards.push(card);
+                return update(userRef, { cards: newCards });
+            }).catch((error) => {
+                console.error('Error fetching user data:', error);
+                throw error;
+            });
+        }
+    
+        function displayUserCards() {
+        get(userRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const user = snapshot.val();
+                document.getElementById('points-display').textContent = user.points || 0;
+                document.getElementById('cards-display').textContent = user.cards ? user.cards.length : 0;
+                displayTradingCards(user.cards || []);
+            } else {
+                alert('User data not found.');
+            }
+        }).catch((error) => {
+            console.error('Error fetching user data:', error);
+        });
+    }
+
+    function displayTradingCards(cards) {
+        const cardsContainer = document.getElementById('cards-container');
+        cardsContainer.innerHTML = ''; // Reset content
+
+        // Ensure cards is an array
+        if (!Array.isArray(cards)) {
+            cards = Object.values(cards);
+        }
+
+        cards.forEach(card => {
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'card';
+
+            const cardImg = document.createElement('img');
+            cardImg.src = card.image;
+            cardImg.alt = `Image of ${card.name}`;
+            cardImg.onclick = function () {
+                openModal(card.image, `${card.name} (${card.rarity})`);
+            };
+
+            const cardInfo = document.createElement('div');
+            cardInfo.className = 'card-info';
+
+            const cardName = document.createElement('p');
+            cardName.className = 'card-name';
+            cardName.textContent = card.name;
+
+            const cardRarity = document.createElement('p');
+            cardRarity.className = 'card-rarity';
+            cardRarity.textContent = card.rarity;
+
+            cardInfo.appendChild(cardName);
+            cardInfo.appendChild(cardRarity);
+            cardDiv.appendChild(cardImg);
+            cardDiv.appendChild(cardInfo);
+
+            cardsContainer.appendChild(cardDiv);
+        });
+    }
+</script>
+
+
