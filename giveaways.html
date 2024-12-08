@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giveaways</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2b2b2b;
+            margin: 0;
+            padding: 0;
+            color: #f5f5f5;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            position: relative;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #61dafb;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: #3e3e3e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+        .card h2 {
+            color: #a5fbb5;
+            margin-bottom: 10px;
+        }
+        .card p, .card ul {
+            color: #f8f8f8;
+        }
+        .card ul {
+            padding-left: 20px;
+            text-align: left;
+        }
+        .card ul li {
+            margin-bottom: 10px;
+        }
+        .home-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #a5fbb5;
+            color: #2b2b2b;
+            border: 2px solid #61dafb;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .home-button:hover {
+            background-color: #61dafb;
+            color: #fff;
+            transform: scale(1.05);
+        }
+        .view-toggle {
+            cursor: pointer;
+            color: #a5fbb5;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .user-points {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #61dafb;
+            color: #2b2b2b;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Giveaways</h1>
+        <br>
+        <div class="points-display" id="points-display">Loading points...</div>
+        <br>
+        <div id="giveaways-list"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getDatabase, ref, get, update, set } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAPl8uaPdFS89m6X4M3OrzTSSeHhw-GkRkRk",
+            authDomain: "team-waffles-acs.firebaseapp.com",
+            projectId: "team-waffles-acs",
+            storageBucket: "team-waffles-acs.appspot.com",
+            messagingSenderId: "636130806538",
+            appId: "1:636130806538:web:281c39ba2e72debd2748f3",
+            measurementId: "G-HEC29JWVFL"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const userId = localStorage.getItem('username'); // Get username from local storage
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const giveawaysList = document.getElementById('giveaways-list');
+            const pointsDisplay = document.getElementById('points-display');
+
+            async function loadGiveaways() {
+                const giveawaysRef = ref(db, 'giveaways');
+                const snapshot = await get(giveawaysRef);
+                const giveaways = snapshot.val();
+
+                giveawaysList.innerHTML = '';
+
+                if (giveaways) {
+                    Object.entries(giveaways).forEach(([id, data]) => {
+                        const entriesCount = data.entries ? Object.keys(data.entries).length : 0;
+                        const activeStatus = data.active ? 'Active' : 'Completed';
+                        const endTime = new Date(data.endTime).toLocaleString();
+                        const winner = data.winner || 'N/A';
+
+                        const div = document.createElement('div');
+                        div.classList.add('card');
+                        div.innerHTML = `
+                            <h2>${data.name} (${activeStatus})</h2>
+                            <p>${data.description}</p>
+                            <p>Tickets Cost: ${data.ticketCost} points</p>
+                            <p>Entries: ${entriesCount}</p>
+                            <p>Ends At: ${endTime}</p>
+                            <p class="winner">Winner: ${winner}</p>
+                            <p>Created By: ${data.adminName}</p> <!-- Display admin name here -->
+                            <div class="buy-tickets">
+                                <button onclick="buyTicket('${id}', ${data.ticketCost})">Buy Ticket</button>
+                            </div>
+                        `;
+                        giveawaysList.appendChild(div);
+                    });
+                } else {
+                    giveawaysList.innerHTML = '<p>No giveaways available at the moment.</p>';
+                }
+            }
+
+            async function loadUserPoints() {
+                const userRef = ref(db, 'users/' + userId);
+                const snapshot = await get(userRef);
+                const userData = snapshot.val();
+
+                if (userData) {
+                    pointsDisplay.textContent = `Your Points: ${userData.points}`;
+                } else {
+                    pointsDisplay.textContent = "Your Points: 0";
+                }
+            }
+
+            // Allow users to buy tickets
+            window.buyTicket = async function(giveawayId, ticketCost) {
+                const userRef = ref(db, 'users/' + userId);
+                const userSnapshot = await get(userRef);
+                const userData = userSnapshot.val();
+
+                if (userData && userData.points >= ticketCost) {
+                    const ticketCount = prompt("How many tickets would you like to buy?", "1");
+
+                    if (ticketCount > 0) {
+                        const totalCost = ticketCount * ticketCost;
+                        if (userData.points >= totalCost) {
+                            const newPoints = userData.points - totalCost;
+
+                            // Deduct points and add entries to the giveaway
+                            await update(userRef, { points: newPoints });
+
+                            for (let i = 0; i < ticketCount; i++) {
+                                const giveawayRef = ref(db, `giveaways/${giveawayId}/entries/${userId}_${Date.now()}`);
+                                await set(giveawayRef, { entered: true });
+                            }
+
+                            alert('You have successfully entered the giveaway!');
+                            location.reload();
+                        } else {
+                            alert('You do not have enough points to buy that many tickets.');
+                        }
+                    }
+                } else {
+                    alert('You do not have enough points to buy a ticket.');
+                }
+            };
+
+            loadGiveaways();
+            loadUserPoints();
+        });
+    </script>
+</body>
+</html>
