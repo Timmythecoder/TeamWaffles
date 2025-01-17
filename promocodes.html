@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promo Code Redemption</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2b2b2b;
+            margin: 0;
+            padding: 0;
+            color: #f5f5f5;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #61dafb;
+        }
+
+        .input-group {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            width: 80%;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #a5fbb5;
+            color: #2b2b2b;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border: 2px solid #61dafb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #61dafb;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #555;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+
+        .home-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #33aaa8;
+            color: #2b2b2b;
+            border: 2px solid #61dafb;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .home-button:hover {
+            background-color: #61dafb;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Redeem Promo Code</h1>
+        <div class="input-group">
+            <input type="text" id="promo-code" placeholder="Enter Promo Code">
+            <button id="redeem-btn">Redeem</button>
+        </div>
+
+        <div id="result" class="result"></div>
+
+        <a href="dashboard.html" class="home-button">Back To Dashboard</a>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getDatabase, ref, query, orderByChild, equalTo, get, runTransaction, update } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyAPl8uaPdFS89m6X4M3OrzTSSeHhw-GkRkRk",
+            authDomain: "team-waffles-acs.firebaseapp.com",
+            projectId: "team-waffles-acs",
+            storageBucket: "team-waffles-acs.appspot.com",
+            messagingSenderId: "636130806538",
+            appId: "1:636130806538:web:281c39ba2e72debd2748f3",
+            measurementId: "G-HEC29JWVFL"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+    
+        // Fetch Username from Local Storage
+        const username = localStorage.getItem('username');
+        if (!username) {
+            alert('No username found in local storage. Please log in.');
+            window.location.href = 'login.html';
+        }
+
+        // Redeem Promo Code
+        document.getElementById('redeem-btn').addEventListener('click', async () => {
+            const promoCode = document.getElementById('promo-code').value;
+            if (promoCode) {
+                try {
+                    // Check Promo Code in Firebase
+                    const promoRef = query(ref(db, 'promos'), orderByChild('code'), equalTo(promoCode));
+                    const promoSnapshot = await get(promoRef);
+
+                    if (promoSnapshot.exists()) {
+                        const promo = Object.values(promoSnapshot.val())[0];
+
+                        // Check if the user has already redeemed this code
+                        const userRef = ref(db, `users/${username}/redeemedCodes`);
+                        const userSnapshot = await get(userRef);
+
+                        if (userSnapshot.exists() && userSnapshot.val().includes(promoCode)) {
+                            alert('You have already redeemed this promo code.');
+                            return;
+                        }
+
+                        const pointsToAdd = promo.points;
+                        const timestamp = new Date().toLocaleString();  // Get the current timestamp
+                        const admin = "admin - promo code redemption";  // Can be dynamically set if needed
+
+                        // Update User Points
+                        const userPointsRef = ref(db, `users/${username}/points`);
+                        await runTransaction(userPointsRef, (currentPoints) => (currentPoints || 0) + pointsToAdd);
+
+                        // Log the action in the user's account under the unique ID
+                        const userPointsLogRef = ref(db, `users/${username}/recentPoints/${username}`);
+                        const recentPointsSnapshot = await get(userPointsLogRef);
+
+                        const newRecentPoints = {
+                            points: pointsToAdd,
+                            timestamp: timestamp,
+                            admin: admin
+                        };
+
+                        // Save the updated recentPoints and redeemedCodes
+                        await update(ref(db, `users/${username}`), {
+                            redeemedCodes: [...(userSnapshot.val() || []), promoCode],
+                            [`recentPoints/${username}`]: newRecentPoints
+                        });
+
+                        alert(`Promo code redeemed! You earned a whopping... ${pointsToAdd} points.`);
+                        document.getElementById('promo-code').value = '';
+                    } else {
+                        alert('Invalid promo code.');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('An error occurred while redeeming the promo code.');
+                }
+            } else {
+                alert('Please enter a promo code.');
+            }
+        });
+    </script>
+</body>
+</html>

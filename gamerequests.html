@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +19,7 @@
         .iphone {
             width: 300px;
             height: 600px;
-            background: #fff;
+            background: #a9beee;
             border: 16px solid black;
             border-radius: 36px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -32,7 +33,7 @@
         .screen {
             width: calc(100% - 32px);
             height: calc(100% - 96px);
-            background: #f5f5f7;
+            background: #a9beee;
             border-radius: 20px;
             overflow: hidden;
             position: relative;
@@ -50,7 +51,9 @@
             align-items: center;
         }
 
-        .signal, .wifi, .battery {
+        .signal,
+        .wifi,
+        .battery {
             width: 10px;
             height: 10px;
             background: #fff;
@@ -68,7 +71,7 @@
         .form-container {
             width: 100%;
             max-width: 300px;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -134,12 +137,40 @@
         }
 
         .home-button:before {
-            content: '\2190'; /* Unicode for left arrow */
+            content: '\2190';
+            /* Unicode for left arrow */
             font-size: 24px;
+        }
+
+        /* Light Mode Styles */
+        .light-mode {
+            background: linear-gradient(135deg, #84c3e2, #507dca);
+            color: #fff;
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background: #333;
+            color: #080808;
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
+    <button class="toggle-button" onclick="toggleMode()">🌙 / 🌞</button>
+
     <div class="iphone">
         <div class="screen">
             <div class="status-bar">
@@ -171,65 +202,89 @@
         </div>
         <a href="index.html" class="home-button"></a>
     </div>
-</head>
-<body>
-  
+    </head>
 
-    <script>
-        function sendSongRequest() {
-            const songName = document.getElementById('songName').value;
-            const artist = document.getElementById('artist').value;
-            const message = document.getElementById('message').value;
+    <body>
 
-            const cooldownKey = 'songRequestCooldown';
-            const cooldownDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
 
-            // Check local storage for last request timestamp
-            const lastRequestTime = localStorage.getItem(cooldownKey);
+        <script>
+            function sendSongRequest() {
+                const songName = document.getElementById('songName').value;
+                const artist = document.getElementById('artist').value;
+                const message = document.getElementById('message').value;
 
-            if (lastRequestTime && Date.now() - lastRequestTime < cooldownDuration) {
-                // Cooldown period not expired
-                const remainingTime = cooldownDuration - (Date.now() - lastRequestTime);
-                const remainingMinutes = Math.ceil(remainingTime / 1000 / 60);
-                document.getElementById('statusMessage').textContent = `Please wait ${remainingMinutes} minutes before submitting another request.`;
-                document.getElementById('statusMessage').style.color = 'red';
-                return;
+                const cooldownKey = 'songRequestCooldown';
+                const cooldownDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+                // Check local storage for last request timestamp
+                const lastRequestTime = localStorage.getItem(cooldownKey);
+
+                if (lastRequestTime && Date.now() - lastRequestTime < cooldownDuration) {
+                    // Cooldown period not expired
+                    const remainingTime = cooldownDuration - (Date.now() - lastRequestTime);
+                    const remainingMinutes = Math.ceil(remainingTime / 1000 / 60);
+                    document.getElementById('statusMessage').textContent = `Please wait ${remainingMinutes} minutes before submitting another request.`;
+                    document.getElementById('statusMessage').style.color = 'red';
+                    return;
+                }
+
+                // Prepare JSON payload
+                const payload = {
+                    content: `New Game Request:\n**Feedback:** ${songName}\n**Who's Sending:** ${artist}\n\n${message}`
+                };
+
+                // Replace with your actual Discord webhook URL
+                const webhookUrl = 'https://discord.com/api/webhooks/1329405348892643328/jUfWHppLXpXAI8F5Rjy2mnTo1uSaJYV0R7Ey-7nfE7VIGH1wT5y17W7Cme2PtvOH3cwg';
+
+                // Send POST request to Discord webhook
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Update local storage with current timestamp
+                            localStorage.setItem(cooldownKey, Date.now());
+                            document.getElementById('statusMessage').textContent = 'Game Request Sent Succesfully!';
+                            document.getElementById('statusMessage').style.color = 'green';
+                        } else {
+                            document.getElementById('statusMessage').textContent = 'Failed to send Game Request.';
+                            document.getElementById('statusMessage').style.color = 'red';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error sending feedback:', error);
+                        document.getElementById('statusMessage').textContent = 'An error occurred while sending the request.';
+                        document.getElementById('statusMessage').style.color = 'red';
+                    });
             }
 
-            // Prepare JSON payload
-            const payload = {
-                content: `New Feedback:\n**Feedback:** ${songName}\n**Who's Sending:** ${artist}\n\n${message}`
+
+            function toggleMode() {
+                const currentMode = localStorage.getItem("mode");
+                const body = document.body;
+
+                if (currentMode === "dark") {
+                    body.classList.remove("dark-mode");
+                    body.classList.add("light-mode");
+                    localStorage.setItem("mode", "light");
+                } else {
+                    body.classList.remove("light-mode");
+                    body.classList.add("dark-mode");
+                    localStorage.setItem("mode", "dark");
+                }
+            }
+
+            // Set mode based on local storage preference
+            window.onload = function () {
+                const savedMode = localStorage.getItem("mode") || "light";
+                document.body.classList.add(savedMode === "dark" ? "dark-mode" : "light-mode");
             };
 
-            // Replace with your actual Discord webhook URL
-            const webhookUrl = 'https://discord.com/api/webhooks/1287276145657647114/dD1Rfio-SGqaHDGNrhMpvNKR8nlGQT79aWhd9OJ0LdUkzFLDI6I4BCJ3xPymehXM2Ps-';
+        </script>
+    </body>
 
-            // Send POST request to Discord webhook
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Update local storage with current timestamp
-                    localStorage.setItem(cooldownKey, Date.now());
-                    document.getElementById('statusMessage').textContent = 'Game Request Sent Succesfully!';
-                    document.getElementById('statusMessage').style.color = 'green';
-                } else {
-                    document.getElementById('statusMessage').textContent = 'Failed to send Game Request.';
-                    document.getElementById('statusMessage').style.color = 'red';
-                }
-            })
-            .catch(error => {
-                console.error('Error sending feedback:', error);
-                document.getElementById('statusMessage').textContent = 'An error occurred while sending the request.';
-                document.getElementById('statusMessage').style.color = 'red';
-            });
-        }
-    </script>
-</body>
 </html>
-

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Features</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2b2b2b;
+            margin: 0;
+            padding: 0;
+            color: #f5f5f5;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #61dafb;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background-color: #3e3e3e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-card h2 {
+            color: #a5fbb5;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #f8f8f8;
+            margin: 10px 0;
+        }
+
+        .feature-card a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #61dafb;
+            color: #2b2b2b;
+            text-decoration: none;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .feature-card a:hover {
+            background-color: #a5fbb5;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #a5fbb5;
+            color: #2b2b2b;
+            border: 2px solid #61dafb;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .home-button:hover {
+            background-color: #61dafb;
+            color: #fff;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shop Features</h1>
+        <div class="grid">
+            <!-- Crate Unboxing -->
+            <div class="feature-card">
+                <h2>Trading Card Unboxing</h2>
+                <p>Unlock amazing trading cards!</p>
+                <a href="tradingcards.html">Go to Crate Unboxing</a>
+            </div>
+            <!-- Trading Card Unboxing 
+            <div class="feature-card">
+                <h2>Trading Card Unboxing</h2>
+                <p>Get exclusive trading cards to enhance your collection. Don't miss out!</p>
+                <a href="card-unboxing.html">Go to Card Unboxing</a>
+            </div>-->
+            <!-- Marketplace -->
+            <div class="feature-card">
+                <h2>LIVE</h2>
+                <p>Live leaderboard of points and cards</p>
+                <a href="points.html">Visit Leaderboard</a>
+            </div>
+            <!-- Inventory -->
+            <div class="feature-card">
+                <h2>Inventory</h2>
+                <p>Check out your stash, a̶n̶d̶ ̶t̶r̶a̶d̶e̶ ̶w̶i̶t̶h̶ ̶o̶t̶h̶e̶r̶s̶!̶</p>
+                <a href="inventory.html">View Inventory</a>
+            </div>
+        </div>
+        <a href="dashboard.html" class="home-button">Back to Home</a>
+    </div>
+</body>
+</html>

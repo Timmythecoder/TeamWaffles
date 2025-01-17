@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Waffles Information</title>
 
-    <br>
-    <br>
-
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #adbbda;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
         }
 
         .iphone {
@@ -29,18 +27,17 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: space-between;
+            padding: 20px;
         }
 
         .screen {
-            width: calc(100% - 32px);
-            height: calc(100% - 96px);
-            background: #6e6e9c;
+            width: 100%;
+            height: 100%;
+            background: #fff;
             border-radius: 20px;
             overflow: hidden;
             position: relative;
-            padding: 16px;
             box-sizing: border-box;
         }
 
@@ -62,27 +59,47 @@
         }
 
         .content {
-            height: calc(100% - 40px);
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            height: 100%;
         }
 
         .info-section {
             width: 100%;
             max-width: 280px;
-            background-color: #fff;
-            padding: 10px;
+            background-color: #8b9fd1;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
             margin-bottom: 20px;
             text-align: center;
+            color: #fff;
+        }
+
+        .info-section h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #fff;
         }
 
         .info-section p {
             margin: 10px 0;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #fff;
+        }
+
+        .info-section a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .info-section a:hover {
+            text-decoration: underline;
         }
 
         .home-button {
@@ -107,33 +124,42 @@
             content: '\2190'; /* Unicode for left arrow */
             font-size: 24px;
         }
+
+        /* Additional styles for better readability */
+        .screen {
+            background-color: #f4f6f8; /* Soft background color for the screen */
+        }
+
+        .content {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            overflow-y: auto;
+        }
+
+        .info-section p, .info-section a {
+            color: #333; /* Dark text for better contrast */
+        }
+
+        /* Hover effects for buttons */
+        .home-button:hover {
+            background-color: #555;
+        }
     </style>
 </head>
 <body>
     <div class="iphone">
         <div class="screen">
-            <div class="status-bar">
-                <span class="signal"></span>
-                <span class="wifi"></span>
-                <span class="battery"></span>
-            </div>
             <div class="content">
-                
-                <br>
-                <br>
-
                 <div class="info-section">
                     <h3>Team Waffles Information</h3>
-                    <p>- Meeting Link: <a href="https://us06web.zoom.us/j/4887413516?pwd=Vym2lbO7ZYyqzdILjbPV3ZkB5Yrzr3.1">Zoom Meeting</a></p>
-                    <p>- Team Waffles Main Links, Applications, Complaints, and Appeals: <a href="https://forms.gle/7n4RqMotkkw2B8b87">Form Link</a>
+                    <p>- Meeting Link: <a href="https://us06web.zoom.us/j/4887413516?pwd=Vym2lbO7ZYyqzdILjbPV3ZkB5Yrzr3.1" target="_blank">Zoom Meeting</a></p>
+                    <p>- Team Waffles Main Links, Applications, Complaints, and Appeals: <a href="https://forms.gle/7n4RqMotkkw2B8b87" target="_blank">Form Link</a></p>
                     <p>- Meeting Password: waffle5</p>
-                    <br>
                     <br>
                     <p>- Ask for your accounts from Tim!</p>
                     <p>- Points: Join The Zoom: 25 Waffle Points | Invite someone to Team Waffles: 50 Waffle Points | Invite someone to the Zoom: 20 Waffle Points</p>
-                    <br>
-                    <br>
-
                 </div>
             </div>
         </div>

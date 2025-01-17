@@ -1,0 +1,51 @@
+/* Default light mode styles */
+body {
+    background-color: #fff;
+    color: #000;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.settings-container {
+    margin: 20px;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+#themeToggle {
+    margin-left: 10px;
+}
+
+/* Optional: style for the switch appearance */
+input[type="checkbox"] {
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+}
+
+input[type="checkbox"]:checked::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: left 0.3s ease;
+}
+
+input[type="checkbox"]:checked::before {
+    left: 22px;
+}

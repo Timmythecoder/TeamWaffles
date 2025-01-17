@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Song Request Form</title>
     <style>
-        body {
+              body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
@@ -18,7 +18,7 @@
         .iphone {
             width: 300px;
             height: 600px;
-            background: #fff;
+            background: #a9beee;
             border: 16px solid black;
             border-radius: 36px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -32,7 +32,7 @@
         .screen {
             width: calc(100% - 32px);
             height: calc(100% - 96px);
-            background: #f5f5f7;
+            background: #a9beee;
             border-radius: 20px;
             overflow: hidden;
             position: relative;
@@ -50,7 +50,9 @@
             align-items: center;
         }
 
-        .signal, .wifi, .battery {
+        .signal,
+        .wifi,
+        .battery {
             width: 10px;
             height: 10px;
             background: #fff;
@@ -68,7 +70,7 @@
         .form-container {
             width: 100%;
             max-width: 300px;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -134,12 +136,38 @@
         }
 
         .home-button:before {
-            content: '\2190'; /* Unicode for left arrow */
+            content: '\2190';
+            /* Unicode for left arrow */
             font-size: 24px;
+        }
+
+        /* Light Mode Styles */
+        .light-mode {
+            background: linear-gradient(135deg, #84c3e2, #507dca);
+            color: #000000;
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background: #333;
+            color: #080808;
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <button class="toggle-button" onclick="toggleMode()">🌙 / 🌞</button>
     <div class="iphone">
         <div class="screen">
             <div class="status-bar">
@@ -202,7 +230,7 @@
             };
 
             // Replace with your actual Discord webhook URL
-            const webhookUrl = 'https://discord.com/api/webhooks/1099631197010800641/0-76iAHXdnz2YHzy6ZJlAcmhwSeI36QxFiK6AKgm5EAsFGylEqpI7e71mLNc7P5CEk1p';
+            const webhookUrl = 'https://discord.com/api/webhooks/1329406034602754069/5GK4TyI7YQ_bJqcklfJRGAIeQ6eRaak0g3PjEuj-iTWjJ3jiAdeooklD8a04K-1ZGSbM';
 
             // Send POST request to Discord webhook
             fetch(webhookUrl, {
@@ -229,6 +257,27 @@
                 document.getElementById('statusMessage').style.color = 'red';
             });
         }
+
+        function toggleMode() {
+            const currentMode = localStorage.getItem("mode");
+            const body = document.body;
+
+            if (currentMode === "dark") {
+                body.classList.remove("dark-mode");
+                body.classList.add("light-mode");
+                localStorage.setItem("mode", "light");
+            } else {
+                body.classList.remove("light-mode");
+                body.classList.add("dark-mode");
+                localStorage.setItem("mode", "dark");
+            }
+        }
+
+        // Set mode based on local storage preference
+        window.onload = function () {
+            const savedMode = localStorage.getItem("mode") || "light";
+            document.body.classList.add(savedMode === "dark" ? "dark-mode" : "light-mode");
+        };
     </script>
 </body>
 </html>

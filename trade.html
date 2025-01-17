@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2b2b2b;
+            color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #61dafb;
+            text-align: center;
+        }
+
+        .trade-section {
+            margin: 20px 0;
+        }
+
+        .card-list,
+        .recipient-list,
+        .incoming-trades {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .card-item,
+        .recipient-item,
+        .trade-item {
+            background-color: #3e3e3e;
+            border: 2px solid #61dafb;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card-item img,
+        .recipient-item img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .card-item:hover,
+        .recipient-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .trade-item {
+            background-color: #61dafb;
+            color: #333;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .trade-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .selected {
+            box-shadow: 0 0 15px #61dafb;
+        }
+
+        .trade-controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .trade-controls input[type="number"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 100px;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .trade-controls button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            background-color: #61dafb;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .trade-controls button:hover {
+            background-color: #3e94d1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Trade Menu</h1>
+        <div class="trade-section">
+            <h2>Your Cards</h2>
+            <div class="card-list" id="card-list">
+                <!-- Cards dynamically added here -->
+            </div>
+        </div>
+        <div class="trade-section">
+            <h2>Select Recipient</h2>
+            <div class="recipient-list" id="recipient-list">
+                <!-- Recipients dynamically added here -->
+            </div>
+        </div>
+        <div class="trade-section">
+            <h2>Incoming Trade Offers</h2>
+            <div class="incoming-trades" id="incoming-trades">
+                <!-- Incoming trade offers dynamically added here -->
+            </div>
+        </div>
+        <div class="trade-controls">
+            <h3>Points to Trade</h3>
+            <input type="number" id="points-input" min="0" placeholder="Points">
+            <button id="offer-trade">Offer Trade</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getDatabase, ref, onValue, push, update, set, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+        import { remove } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+      
+        const firebaseConfig = {
+            apiKey: "AIzaSyAPl8uaPdFS89m6X4M3OrzTSSeHhw-GkRkRk",
+            authDomain: "team-waffles-acs.firebaseapp.com",
+            projectId: "team-waffles-acs",
+            storageBucket: "team-waffles-acs.appspot.com",
+            messagingSenderId: "636130806538",
+            appId: "1:636130806538:web:281c39ba2e72debd2748f3",
+            measurementId: "G-HEC29JWVFL"
+        };
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const username = localStorage.getItem('username') || "Abi";
+        const cardList = document.getElementById("card-list");
+        const recipientList = document.getElementById("recipient-list");
+        const pointsInput = document.getElementById("points-input");
+        const offerTradeButton = document.getElementById("offer-trade");
+        const incomingTrades = document.getElementById("incoming-trades");
+
+        let selectedCard = null;
+        let selectedRecipient = null;
+
+        // Fetch user's cards
+        const userCardsRef = ref(db, `users/${username}/cards`);
+        onValue(userCardsRef, (snapshot) => {
+            cardList.innerHTML = "";
+            snapshot.forEach((cardSnapshot) => {
+                const cardData = cardSnapshot.val();
+                const card = document.createElement("div");
+                card.className = "card-item";
+                card.innerHTML = `
+                    <img src="${cardData.image}" alt="${cardData.name}">
+                    <p>${cardData.name}</p>
+                `;
+                card.addEventListener("click", () => {
+                    document.querySelectorAll(".card-item").forEach(item => item.classList.remove("selected"));
+                    card.classList.add("selected");
+                    selectedCard = cardSnapshot.key;
+                });
+                cardList.appendChild(card);
+            });
+        });
+
+        // Declare recipientCards globally
+        let recipientCards = {}; 
+// Function to accept a trade
+// Function to accept a trade
+async function acceptTrade(tradeId, tradeData) {
+    const recipientUsername = localStorage.getItem('username'); // Get recipient's username from local storage
+    const senderUsername = tradeData.from; // Sender of the trade (get from tradeData)
+    const tradedCardId = tradeData.card; // Card ID in the trade
+    const pointsOffered = tradeData.points; // Points offered in the trade
+
+    if (!tradedCardId) {
+        console.error('No card ID provided for the trade.');
+        alert('Error: No card ID provided.');
+        return;
+    }
+
+    const recipientCardsRef = ref(db, `users/${recipientUsername}/cards`);
+    const recipientPointsRef = ref(db, `users/${recipientUsername}/points`);
+    const senderCardsRef = ref(db, `users/${senderUsername}/cards`);
+    const senderPointsRef = ref(db, `users/${senderUsername}/points`);
+    const tradeRef = ref(db, `trades/${tradeId}`); // Use tradeId here to properly reference the trade
+
+    try {
+        const senderCardsSnapshot = await get(senderCardsRef);
+        const senderCards = senderCardsSnapshot.val() || {};
+
+        const tradedCardData = {
+            image: tradeData.image,
+            rarity: tradeData.rarity,
+            name: tradeData.cardName, // Assuming `cardName` exists in tradeData
+        };
+
+        if (!senderCards[tradedCardId]) {
+            throw new Error("The sender does not have this card to trade.");
+        }
+        delete senderCards[tradedCardId]; // Remove the card from sender's collection
+
+        const recipientCardsSnapshot = await get(recipientCardsRef);
+        let recipientCards = recipientCardsSnapshot.val() || {}; // Initialize recipient's cards if undefined
+
+        recipientCards[tradedCardId] = tradedCardData; // Add the traded card to recipient's collection
+
+        // Ensure the data passed to update is an object and update the cards
+        await Promise.all([
+            update(senderCardsRef, senderCards),
+            update(recipientCardsRef, recipientCards),
+        ]);
+
+        // Process points
+        const senderPointsSnapshot = await get(senderPointsRef);
+        const recipientPointsSnapshot = await get(recipientPointsRef);
+        const updatedSenderPoints = (senderPointsSnapshot.val() || 0) - pointsOffered;
+        const updatedRecipientPoints = (recipientPointsSnapshot.val() || 0) + pointsOffered;
+
+        if (updatedSenderPoints < 0) {
+            throw new Error("Insufficient points for trade.");
+        }
+
+        // Update points as an object
+        await Promise.all([
+            update(senderPointsRef, { points: updatedSenderPoints }), // Correct format for points update
+            update(recipientPointsRef, { points: updatedRecipientPoints }), // Correct format for points update
+        ]);
+
+        // Remove the trade request from the trades database
+        await remove(tradeRef);
+
+        console.log('Trade accepted and completed successfully.');
+        alert('Trade accepted successfully!');
+    } catch (error) {
+        console.error('Error processing trade:', error);
+        alert(`Error processing trade: ${error.message}`);
+    }
+}
+
+
+
+
+        // Function to decline a trade
+        function declineTrade(tradeId) {
+            const tradeRef = ref(db, `trades/${username}/${tradeId}`);
+            remove(tradeRef)
+                .then(() => console.log('Trade declined successfully.'))
+                .catch((error) => console.error('Error declining trade:', error));
+        }
+
+        // Fetch all users for recipient selection
+        const usersRef = ref(db, `users`);
+        onValue(usersRef, (snapshot) => {
+            recipientList.innerHTML = "";
+            snapshot.forEach((userSnapshot) => {
+                const user = userSnapshot.key;
+                if (user !== username) {
+                    const recipient = document.createElement("div");
+                    recipient.className = "recipient-item";
+                    recipient.textContent = user;
+                    recipient.addEventListener("click", () => {
+                        document.querySelectorAll(".recipient-item").forEach(item => item.classList.remove("selected"));
+                        recipient.classList.add("selected");
+                        selectedRecipient = user;
+                    });
+                    recipientList.appendChild(recipient);
+                }
+            });
+        });
+
+        // Fetch incoming trade offers for the user
+        const tradesRef = ref(db, `trades/${username}`);
+        onValue(tradesRef, (snapshot) => {
+            incomingTrades.innerHTML = "";
+            snapshot.forEach((tradeSnapshot) => {
+                const tradeData = tradeSnapshot.val();
+                const tradeItem = document.createElement("div");
+                tradeItem.className = "trade-item";
+                tradeItem.innerHTML = `
+                    <p>From: ${tradeData.from}</p>
+                    <p>Card: ${tradeData.card}</p>
+                    <p>Rarity: ${tradeData.rarity}</p>
+                    <img src="${tradeData.image}" alt="${tradeData.card}" style="width: 100px; height: auto;">
+                    <p>Points: ${tradeData.points}</p>
+                    <button id="accept-trade-${tradeSnapshot.key}">Accept</button>
+                    <button id="decline-trade-${tradeSnapshot.key}">Decline</button>
+                `;
+                incomingTrades.appendChild(tradeItem);
+
+                document.getElementById(`accept-trade-${tradeSnapshot.key}`).addEventListener('click', () => {
+                    acceptTrade(tradeSnapshot.key, tradeData);
+                });
+
+                document.getElementById(`decline-trade-${tradeSnapshot.key}`).addEventListener('click', () => {
+                    declineTrade(tradeSnapshot.key);
+                });
+            });
+        });
+
+        // Offer trade
+        offerTradeButton.addEventListener("click", () => {
+            if (!selectedCard || !selectedRecipient) {
+                alert("Please select a card and a recipient.");
+                return;
+            }
+
+            const points = parseInt(pointsInput.value);
+            if (isNaN(points) || points < 0) {
+                alert("Please enter a valid number of points.");
+                return;
+            }
+
+            const userCardRef = ref(db, `users/${username}/cards/${selectedCard}`);
+            onValue(userCardRef, (snapshot) => {
+                const cardData = snapshot.val();
+                if (!cardData) {
+                    alert("Card data not found.");
+                    return;
+                }
+
+                const tradeData = {
+                    card: selectedCard,
+                    from: username,
+                    points: points,
+                    rarity: cardData.rarity,
+                    image: cardData.image
+                };
+
+                const tradeRef = ref(db, `trades/${selectedRecipient}`);
+                push(tradeRef, tradeData)
+                    .then(() => {
+                        alert("Trade offer sent!");
+                    })
+                    .catch((error) => {
+                        console.error("Error sending trade offer:", error);
+                    });
+            });
+        });
+    </script>
+    
+</body>
+
+</html>
