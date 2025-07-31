@@ -1,91 +1,45 @@
+<!--25 - VER2-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <!-- tim was here -->
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Waffles Phone</title>
-    <link rel="icon" href="TWL O - Copy.png" type="image/x-icon">
+    <title>Team Waffles - Login/Sign Up</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <div id="loading-screen">
-        <div class="spinner"></div>
-    </div>
-    
-    <div class="container">
-    
-
-
-        <div class="text">
-            <h2>Team Waffles Interface</h2>
+    <div class="auth-container">
+        <div class="logo">
+            <img src="TWL O - Copy.png" alt="Team Waffles Logo"> <!-- Replace with your logo URL -->
         </div>
-
-        <div class="iphone">
-            <div class="screen">
-                <div class="status-bar">
-                    <div class="signal-strength">
-                        <div class="bar bar-1"></div>
-                        <div class="bar bar-2"></div>
-                        <div class="bar bar-3"></div>
-                        <div class="bar bar-4"></div>
-                    </div>
-                    <span id="current-time"></span>
-                    <div class="battery"></div>
-                </div>
-                
-              <!-- use later 
-  <div class="scrolling-text-container">
-                    <div id="scrolling-text"></div>
-                </div>
-                -->
-                <div class="widget news-ticker">
-                    <marquee id="news-ticker-text">Latest News: Welcome to Team Waffles Interface!</marquee>
-                </div>
-                
-                
-                <div class="content">
-                    <div class="app" onclick="navigateTo('points.html')">
-                        <img src="8.png" alt="Login Icon">
-                    </div>
-                    <div class="app" onclick="navigateTo('index.html')">
-                        <img src="10.png" alt="Home Icon">
-                    </div>
-                    <div class="app" onclick="navigateTo('songrequest.html')">
-                        <img src="16.png" alt="Songs Icon">
-                    </div>
-                    <div class="app" onclick="navigateTo('calandar.html')">
-                        <img src="4.png" alt="Schedule Icon">
-                    </div>
-                    <div class="app" onclick="navigateTo('info.html')">
-                        <img src="infolg.png" alt="Info Icon">
-                    </div>
-                    <div class="app" onclick="navigateTo('feedback.html')">
-                        <img src="12.png" alt="Feedback Icon">
-                    </div>
-
-                    <div class="app" onclick="navigateTo('gamerequests.html')">
-                        <img src="gamerequestsicon.png" alt="Game Requsts Icon">
-                    </div>
-                    
-                    <div class="app" onclick="navigateTo('gallery.html')">
-                        <img src="7.png" alt="Gallery Icon">
-                    </div>
-                </div>
-                
-                
-                    <img class="mainlogo" src="TWL O - Copy.png"> 
-
-                </div>
-            </div>
-            
-            <div class="home-button"></div>
-            
+        <h2 id="form-title">Sign In</h2>
+        <h3 id="form-subtitle">Use Your REAL Emails</h3>
+        <div class="error-message" id="error-message"></div>
+        <div class="success-message" id="success-message"></div>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <input type="password" id="password" placeholder="Enter your password" required>
+        <button id="auth-button" onclick="authAction()">Sign In</button>
+        <div class="loading-spinner" id="loading-spinner">
+            <video autoplay loop muted>
+                <source src="Loading.mp4" type="video/mp4"> <!-- Replace with your loading spinner URL -->
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="toggle-text" id="toggle-text">
+            Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a>
         </div>
     </div>
-</div>
-    <script src="script.js"></script>
+    <!-- Back to Team Waffles Website Button -->
+    <a href="https://bit.ly/teamwaffleswebsite" class="home-button"></a>
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-database.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+    <script src="teamwafflesauth.js"></script>
 </body>
 </html>
